@@ -7,7 +7,7 @@
     <ProjectGuid>{3D002520-5D2B-4A45-8666-0F71B5650DBC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>generic_login_framework</RootNamespace>
+    <RootNamespace>GenericLoginFramework</RootNamespace>
     <AssemblyName>generic-login-framework</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -40,13 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OAuth\Providers\FacebookProvider.cs" />
+    <Compile Include="OAuth\Providers\OAuthProvider.cs" />
+    <Compile Include="OpenID\Providers\GoogleProvider.cs" />
+    <Compile Include="OpenID\Providers\OpenIDProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Database\" />
     <Folder Include="Generic\" />
-    <Folder Include="OAuth\" />
-    <Folder Include="OpenID\" />
     <Folder Include="Resources\Connectors\" />
     <Folder Include="Resources\Images\Facebook\" />
     <Folder Include="Resources\Images\Google\" />
