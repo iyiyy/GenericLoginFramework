@@ -53,7 +53,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <Compile Include="GLF.cs" />
+=======
+>>>>>>> origin/master
     <Compile Include="OAuth\Providers\FacebookProvider.cs" />
     <Compile Include="OAuth\Providers\OAuthProvider.cs" />
     <Compile Include="OpenID\Providers\GoogleProvider.cs" />
