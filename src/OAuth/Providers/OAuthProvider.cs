@@ -8,5 +8,14 @@ namespace GenericLoginFramework.OAuth.Providers
 {
     abstract class OAuthProvider
     {
+        public enum Flow
+        {
+            AuthorizationCode,
+            Implicit,
+            ResourceOwnerPasswordCredentials,
+            ClientCredentials
+        }
+
+        public abstract void SetKeys(string[] keys);
     }
 }
