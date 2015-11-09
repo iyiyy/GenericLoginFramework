@@ -12,12 +12,9 @@ namespace GenericLoginFramework
         {
         }
 
-        public void EnableOauthProvider<T>(params string[] args)
+        public void EnableOauthProvider<T>(params string[] args) where T : GenericLoginFramework.OAuth.Providers.OAuthProvider
         {
             Type providerType = typeof(T);
-
-            if (!providerType.IsSubclassOf(typeof(OAuth.Providers.OAuthProvider)))
-                throw new Exception("Generic type T must be of subclass of OAuthProvider");
 
             OAuth.Providers.OAuthProvider provider = (OAuth.Providers.OAuthProvider)providerType.GetProperty("Instance").GetValue(null, null);
 
@@ -26,7 +23,6 @@ namespace GenericLoginFramework
 
         public void EnableOpenIDProvider()
         {
-           EnableOauthProvider<OAuth.Providers.FacebookProvider>();
         }
     }
 }
