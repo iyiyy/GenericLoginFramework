@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{3D002520-5D2B-4A45-8666-0F71B5650DBC}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GenericLoginFramework</RootNamespace>
     <AssemblyName>generic-login-framework</AssemblyName>
@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Tests\DatabaseTest.cs" />
     <Compile Include="Database\FacebookResourceDbContext.cs" />
     <Compile Include="Database\GoogleResourceDbContext.cs" />
     <Compile Include="User.cs" />
@@ -87,7 +88,9 @@
     <Folder Include="Resources\Images\Google\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="ClassDiagram.cd" />
     <None Include="packages.config" />
   </ItemGroup>
