@@ -65,7 +65,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Database\FbResourceDbContext.cs" />
+    <Compile Include="Database\FacebookResourceDbContext.cs" />
+    <Compile Include="Database\GoogleResourceDbContext.cs" />
     <Compile Include="User.cs" />
     <Compile Include="Database\UserDbContext.cs" />
     <Compile Include="GLF.cs" />

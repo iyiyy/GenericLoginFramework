@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Data.Entity;
 
+using GenericLoginFramework.OAuth.Resources;
+
 namespace GenericLoginFramework.Database
 {
-    class FbResourceDbContext : DbContext
+    class FacebookResourceDbContext : DbContext
     {
-        public FbResourceDbContext() : base()
+        public FacebookResourceDbContext() : base()
         {
             Database.Initialize(true);
         }
 
-        public FbResourceDbContext(string name, bool connStringName)
-            : base(connStringName ? String.Format("name={0}", name) : name)
+        public FacebookResourceDbContext(string name, bool isConnName)
+            : base(isConnName ? String.Format("name={0}", name) : name)
         {
             Database.Initialize(true);
         }
@@ -21,7 +23,7 @@ namespace GenericLoginFramework.Database
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Types().Configure(entity => entity.ToTable("glf." + entity.ClrType.Name);
+            modelBuilder.Types().Configure(entity => entity.ToTable("glf." + entity.ClrType.Name));
         }
     }
 }
