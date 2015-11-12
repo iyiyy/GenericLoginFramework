@@ -2,21 +2,56 @@
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="GenericLoginFramework.GLF">
     <Position X="14.5" Y="0.75" Width="2" />
+    <NestedTypes>
+      <Enum Name="GenericLoginFramework.GLF.OAuthProvider" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>GLF.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Enum Name="GenericLoginFramework.GLF.OAuthProperty" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>GLF.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Enum Name="GenericLoginFramework.GLF.OpenIDProvider" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>GLF.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Enum Name="GenericLoginFramework.GLF.OpenIDProperty" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>GLF.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAACAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAgAAAAgAAAAACAAAAIAAAAAAAACAgAAAAAA=</HashCode>
       <FileName>GLF.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="GenericLoginFramework.OAuth.Providers.FacebookProvider">
-    <Position X="11.5" Y="2.75" Width="1.75" />
+    <Position X="11.5" Y="3.25" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>gAAAAAAAAAAAAASABAAEAAQAAABEAAAAQAAAAAAAAAA=</HashCode>
+      <HashCode>gAAAAAAACAAAAAQABAAEAAQAAABEAAAAQAAABCAAAAA=</HashCode>
       <FileName>OAuth\Providers\FacebookProvider.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="GenericLoginFramework.OAuth.Providers.OAuthProvider">
     <Position X="11.5" Y="0.75" Width="1.75" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
     <NestedTypes>
+      <Enum Name="GenericLoginFramework.OAuth.Providers.OAuthProvider.Provider" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>OAuth\Providers\OAuthProvider.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Enum Name="GenericLoginFramework.OAuth.Providers.OAuthProvider.OAuthProperty" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>OAuth\Providers\OAuthProvider.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
       <Enum Name="GenericLoginFramework.OAuth.Providers.OAuthProvider.Flow" Collapsed="true">
         <TypeIdentifier>
           <NewMemberFileName>OAuth\Providers\OAuthProvider.cs</NewMemberFileName>
@@ -29,7 +64,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="GenericLoginFramework.OpenID.Providers.GoogleProvider">
-    <Position X="8.75" Y="2.5" Width="1.5" />
+    <Position X="8.75" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>OpenID\Providers\GoogleProvider.cs</FileName>
@@ -37,6 +72,9 @@
   </Class>
   <Class Name="GenericLoginFramework.OpenID.Providers.OpenIDProvider">
     <Position X="8.75" Y="0.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
     <NestedTypes>
       <Enum Name="GenericLoginFramework.OpenID.Providers.OpenIDProvider.Flow" Collapsed="true">
         <TypeIdentifier>

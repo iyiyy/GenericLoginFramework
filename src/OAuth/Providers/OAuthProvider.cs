@@ -8,6 +8,20 @@ namespace GenericLoginFramework.OAuth.Providers
 {
     abstract class OAuthProvider
     {
+        public enum Provider
+        {
+            FacebookProvider
+        }
+
+        public enum OAuthProperty
+        {
+            AppID,
+            AppSecret,
+            DialogURI,
+            RedirectURI,
+            DefaultRedirectURI
+        }
+
         public enum Flow
         {
             AuthorizationCode,
