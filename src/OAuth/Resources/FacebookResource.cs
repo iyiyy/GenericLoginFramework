@@ -1,8 +1,9 @@
 ﻿namespace GenericLoginFramework.OAuth.Resources
 {
-    class FacebookResource
+    class FacebookResource : OAuthResource
     {
-        public int Id { get; set; }
+        public override string ID { get; set; }
+
         public string Name { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -13,7 +14,7 @@
         public string UpdatedTime { get; set; }
         public string Verified { get; set; }
 
-        public int UserId { get; set; }
-        public virtual User user { get; set; }
+        public string UserID { get; set; }
+        public virtual User User { get; set; }
     }
 }

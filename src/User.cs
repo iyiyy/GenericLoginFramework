@@ -1,8 +1,7 @@
-﻿
-namespace GenericLoginFramework
+﻿namespace GenericLoginFramework
 {
-    public partial class User
+    public class User
     {
-        public int Id { get; set; }
+        public string ID { get; set; }
     }
 }
