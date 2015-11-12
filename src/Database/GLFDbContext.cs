@@ -6,11 +6,6 @@ namespace GenericLoginFramework.Database
 {
     class GLFDbContext : DbContext
     {
-        public GLFDbContext() : base("GenericLoginFramework")
-        {
-            Database.CreateIfNotExists();
-        }
-
         public GLFDbContext(string name, bool isConnName)
             : base(isConnName ? string.Format("name={0}", name) : name)
         {

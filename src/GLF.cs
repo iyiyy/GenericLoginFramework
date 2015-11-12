@@ -40,10 +40,10 @@ namespace GenericLoginFramework
 
         private bool DbIsInitialized { get; set; }
 
-        public void InitializeGLFDb(string name, bool isConnString)
+        public void InitializeGLFDb(string name, bool isConnName)
         {
-            if(!DbIsInitialized)
-                Console.WriteLine("");
+            if (!DbIsInitialized)
+                using (GenericLoginFramework.Database.GLFDbContext db = new GenericLoginFramework.Database.GLFDbContext(name, isConnName)) { };
 
             DbIsInitialized = true;
         }
