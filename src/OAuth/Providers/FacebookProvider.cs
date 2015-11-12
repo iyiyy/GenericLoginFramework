@@ -11,7 +11,6 @@ namespace GenericLoginFramework.OAuth.Providers
         private static GenericLoginFramework.OAuth.Providers.FacebookProvider instance;
         private string appID;
         private string appSecret;
-        private GenericLoginFramework.OAuth.Providers.OAuthProvider.Flow flow;
 
         private FacebookProvider(){}
 
@@ -52,33 +51,45 @@ namespace GenericLoginFramework.OAuth.Providers
             }
         }
 
-        public GenericLoginFramework.OAuth.Providers.OAuthProvider.Flow UsedFlow
+        public string DialogURI
         {
             get
             {
-                return flow;
-            }
-            set
-            {
-                flow = value;
+                if (AppID == null || AppID.Length == 0)
+                    throw new Exception("Can't return dialog URI since the app ID has not been set!");
+
+                string responseType = (UsedFlow == GenericLoginFramework.OAuth.Providers.FacebookProvider.Flow.AuthorizationCode ? "code" : "token");
+                string redirectURI = (RedirectURI == null || RedirectURI.Length == 0) ? DefaultRedirectURI : RedirectURI;
+
+                return string.Format("https://www.facebook.com/dialog/oauth?client_id={0}&response_type={1}&redirect_uri={2}", AppID, responseType, redirectURI);
             }
         }
+
+        public string DefaultRedirectURI
+        {
+            get
+            {
+                return "https://www.facebook.com/connect/login_success.html";
+            }
+        }
+
+        public string RedirectURI { get; set; }
+
+        public GenericLoginFramework.OAuth.Providers.OAuthProvider.Flow UsedFlow { get; set; }
 
         public override void SetKeys(string[] keys)
         {
             if (keys.Length == 1)
             {
-                this.AppID = keys[0];
-                this.UsedFlow = GenericLoginFramework.OAuth.Providers.OAuthProvider.Flow.Implicit;
+                AppID = keys[0];
+                UsedFlow = GenericLoginFramework.OAuth.Providers.OAuthProvider.Flow.Implicit;
             }
             else if (keys.Length > 1)
             {
-                this.AppID = keys[0];
-                this.AppSecret = keys[1];
-                this.UsedFlow = GenericLoginFramework.OAuth.Providers.OAuthProvider.Flow.AuthorizationCode;
+                AppID = keys[0];
+                AppSecret = keys[1];
+                UsedFlow = GenericLoginFramework.OAuth.Providers.OAuthProvider.Flow.AuthorizationCode;
             }
         }
-
-
     }
 }

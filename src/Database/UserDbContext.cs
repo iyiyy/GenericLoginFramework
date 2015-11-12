@@ -20,7 +20,7 @@ namespace GenericLoginFramework.Database
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Types().Configure(entity => entity.ToTable("glf." + entity.ClrType.Name);
+            modelBuilder.Types().Configure(entity => entity.ToTable("glf." + entity.ClrType.Name));
         }
     }
 }
