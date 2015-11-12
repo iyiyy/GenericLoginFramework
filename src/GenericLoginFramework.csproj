@@ -65,11 +65,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Database\GLFDbContext.cs" />
     <Compile Include="Tests\DatabaseTest.cs" />
-    <Compile Include="Database\FacebookResourceDbContext.cs" />
-    <Compile Include="Database\GoogleResourceDbContext.cs" />
     <Compile Include="User.cs" />
-    <Compile Include="Database\UserDbContext.cs" />
     <Compile Include="GLF.cs" />
     <Compile Include="IResource.cs" />
     <Compile Include="OAuth\Providers\FacebookProvider.cs" />
