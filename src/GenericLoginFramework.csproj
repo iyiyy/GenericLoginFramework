@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{3D002520-5D2B-4A45-8666-0F71B5650DBC}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GenericLoginFramework</RootNamespace>
     <AssemblyName>generic-login-framework</AssemblyName>
@@ -66,7 +66,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database\GLFDbContext.cs" />
-    <Compile Include="Tests\DatabaseTest.cs" />
     <Compile Include="User.cs" />
     <Compile Include="GLF.cs" />
     <Compile Include="IResource.cs" />
