@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -75,7 +77,58 @@ namespace GenericLoginFramework.OAuth.Providers
 
         public string RedirectURI { get; set; }
 
-        public GenericLoginFramework.OAuth.Providers.OAuthProvider.Flow UsedFlow { get; set; }
+        public override GenericLoginFramework.OAuth.Providers.OAuthProvider.Flow UsedFlow { get; set; }
+
+        public override async Task<GenericLoginFramework.OAuth.Resources.OAuthResource> GetResourceFromToken(string token)
+        {
+            if (UsedFlow == GenericLoginFramework.OAuth.Providers.OAuthProvider.Flow.Implicit)
+            {
+                using (var client = new HttpClient())
+                {
+                    string resourceString = await client.GetStringAsync(String.Format("https://graph.facebook.com/me?access_token={0}&fields=id,name,first_name,last_name,link,gender,locale,timezone,updated_time,verified", token));
+                    Dictionary<string, string> resourceJSON = JsonConvert.DeserializeObject<Dictionary<string, string>>(resourceString);
+                    return new GenericLoginFramework.OAuth.Resources.FacebookResource
+                    {
+                        ID = resourceJSON["id"],
+                        Name = resourceJSON["name"],
+                        FirstName = resourceJSON["first_name"],
+                        LastName = resourceJSON["last_name"],
+                        Link = resourceJSON["link"],
+                        Gender = resourceJSON["gender"],
+                        Locale = resourceJSON["locale"],
+                        Timezone = resourceJSON["timezone"],
+                        UpdatedTime = resourceJSON["updated_time"],
+                        Verified = resourceJSON["verified"]
+                    };
+                }
+            }
+            else if (UsedFlow == GenericLoginFramework.OAuth.Providers.OAuthProvider.Flow.AuthorizationCode)
+            {
+                using (var client = new HttpClient())
+                { 
+                    string responseString = await client.GetStringAsync(String.Format("https://graph.facebook.com/v2.5/oauth/access_token?client_id={0}&redirect_uri={1}&client_secret={2}&code={3}", AppID, RedirectURI, AppSecret, token));
+                    Dictionary<string, string> responseJSON = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseString);
+                    token = responseJSON["access_token"];
+
+                    string resourceString = await client.GetStringAsync(String.Format("https://graph.facebook.com/me?access_token={0}&fields=id,name,first_name,last_name,link,gender,locale,timezone,updated_time,verified", token));
+                    Dictionary<string, string> resourceJSON = JsonConvert.DeserializeObject<Dictionary<string, string>>(resourceString);
+                    return new GenericLoginFramework.OAuth.Resources.FacebookResource {
+                        ID = resourceJSON["id"],
+                        Name = resourceJSON["name"],
+                        FirstName = resourceJSON["first_name"],
+                        LastName = resourceJSON["last_name"],
+                        Link = resourceJSON["link"],
+                        Gender = resourceJSON["gender"],
+                        Locale = resourceJSON["locale"],
+                        Timezone = resourceJSON["timezone"],
+                        UpdatedTime = resourceJSON["updated_time"],
+                        Verified = resourceJSON["verified"]
+                    };
+                }
+            }
+            else
+                throw new NotImplementedException();
+        }
 
         public override void SetKeys(string[] keys)
         {
