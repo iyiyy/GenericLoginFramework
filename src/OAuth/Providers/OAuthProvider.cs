@@ -31,5 +31,7 @@ namespace GenericLoginFramework.OAuth.Providers
         }
 
         public abstract void SetKeys(string[] keys);
+        public abstract GenericLoginFramework.OAuth.Providers.OAuthProvider.Flow UsedFlow { get; set; }
+        public abstract Task<GenericLoginFramework.OAuth.Resources.OAuthResource> GetResourceFromToken(string token);
     }
 }

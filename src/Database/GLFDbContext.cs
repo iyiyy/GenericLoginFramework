@@ -10,6 +10,7 @@ namespace GenericLoginFramework.Database
             : base(isConnName ? string.Format("name={0}", name) : name)
         {
             Database.CreateIfNotExists();
+            Configuration.LazyLoadingEnabled = false;
         }
 
         public virtual DbSet<FacebookResource> FacebookResources { get; set; }

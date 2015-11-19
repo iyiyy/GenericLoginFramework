@@ -1,6 +1,6 @@
 ﻿namespace GenericLoginFramework.OpenID.Resources
 {
-    class GoogleResource : OpenIDResource
+    public class GoogleResource : OpenIDResource
     {
         public override string ID { get; set; }
 
