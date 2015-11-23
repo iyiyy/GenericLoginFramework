@@ -1,9 +1,12 @@
-﻿namespace GenericLoginFramework
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace GenericLoginFramework
 {
-    public class User
+    public partial class User
     {
+        [Key]
         public string ID { get; set; }
-        public GenericLoginFramework.OAuth.Resources.FacebookResource FacebookResource { get; set; }
-        public GenericLoginFramework.OpenID.Resources.GoogleResource GoogleResource { get; set; }
+        public virtual GenericLoginFramework.OAuth.Resources.FacebookResource FacebookResource { get; set; }
+        public virtual GenericLoginFramework.OpenID.Resources.GoogleResource GoogleResource { get; set; }
     }
 }
