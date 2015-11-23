@@ -1,9 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
+using GenericLoginFramework.Database;
+using GenericLoginFramework.OAuth.Resources;
+using GenericLoginFramework.OAuth.Providers;
+using GenericLoginFramework.OpenID.Resources;
+using GenericLoginFramework.OpenID.Providers;
 
 namespace GenericLoginFramework
 {
@@ -14,17 +17,17 @@ namespace GenericLoginFramework
             DbIsInitialized = false;
         }
 
-        public enum OAuthProvider
+        public enum OAuthProviderEnum
         {
             FacebookProvider
         }
 
-        public enum OpenIDProvider
+        public enum OpenIDProviderEnum
         {
             GoogleProvider
         }
 
-        public enum OAuthProperty
+        public enum OAuthPropertyEnum
         {
             AppID,
             AppSecret,
@@ -33,7 +36,7 @@ namespace GenericLoginFramework
             DefaultRedirectURI
         }
 
-        public enum OpenIDProperty
+        public enum OpenIDPropertyEnum
         {
             RedirectURI
         }
@@ -48,37 +51,37 @@ namespace GenericLoginFramework
             {
                 DbName = name;
                 IsConnString = isConnString;
-                using (GenericLoginFramework.Database.GLFDbContext db = new GenericLoginFramework.Database.GLFDbContext(DbName, IsConnString)) { };
+                using (GLFDbContext db = new GLFDbContext(DbName, IsConnString)) { };
             }
 
             DbIsInitialized = true;
         }
 
-        public void EnableOauthProvider(GenericLoginFramework.GLF.OAuthProvider pro, params string[] args)
+        public void EnableOauthProvider(OAuthProviderEnum pro, params string[] args)
         {
-            GenericLoginFramework.OAuth.Providers.OAuthProvider provider = GetOAuthProvider(pro);
+            OAuthProvider provider = GetOAuthProvider(pro);
 
             provider.SetKeys(args);
 
             InitializeGLFDb("GenericLoginFramework", false);
         }
 
-        public string GetOAuthProviderProperty(GenericLoginFramework.GLF.OAuthProvider pro, GenericLoginFramework.GLF.OAuthProperty prop)
+        public string GetOAuthProviderProperty(OAuthProviderEnum pro, OAuthPropertyEnum prop)
         {
-            GenericLoginFramework.OAuth.Providers.OAuthProvider provider = GetOAuthProvider(pro);
+            OAuthProvider provider = GetOAuthProvider(pro);
 
             PropertyInfo pi = provider.GetType().GetProperty(prop.ToString());
 
             return (string)pi.GetValue(provider, null);
         }
 
-        public async Task<GenericLoginFramework.User> GetUserFromOAuthToken(GenericLoginFramework.GLF.OAuthProvider pro, string token)
+        public async Task<User> GetUserFromOAuthToken(OAuthProviderEnum pro, string token)
         {
-            GenericLoginFramework.OAuth.Providers.OAuthProvider provider = GetOAuthProvider(pro);
-            GenericLoginFramework.OAuth.Resources.OAuthResource resource = await provider.GetResourceFromToken(token);
+            OAuthProvider provider = GetOAuthProvider(pro);
+            OAuthResource resource = await provider.GetResourceFromToken(token);
 
-            GenericLoginFramework.User user;
-            using(GenericLoginFramework.Database.GLFDbContext db = new GenericLoginFramework.Database.GLFDbContext(DbName, IsConnString))
+            User user;
+            using(GLFDbContext db = new GLFDbContext(DbName, IsConnString))
             {
 
                 user = db.Users.Where(u => (u.GetType().GetProperty(pro.ToString()).GetValue(u)).GetType().GetProperty("ID").GetValue((u.GetType().GetProperty(pro.ToString()).GetValue(u))).ToString() == resource.ID).FirstOrDefault();
@@ -96,7 +99,7 @@ namespace GenericLoginFramework
                 }
                 else
                 {
-                    user = new GenericLoginFramework.User { ID = new Guid().ToString() };
+                    user = new User { ID = Guid.NewGuid() };
                     property.SetValue(user, resource, null);
                     db.Users.Add(user);
                     
@@ -107,21 +110,21 @@ namespace GenericLoginFramework
             return user;
         }
 
-        public void EnableOpenIDProvider(GenericLoginFramework.GLF.OpenIDProvider pro)
+        public void EnableOpenIDProvider(OpenIDProviderEnum pro)
         {
             InitializeGLFDb("GenericLoginFramework", false);
         }
 
-        public string GetOpenIDProvicerProperty(GenericLoginFramework.GLF.OpenIDProvider pro, GenericLoginFramework.GLF.OpenIDProperty prop)
+        public string GetOpenIDProvicerProperty(OpenIDProviderEnum pro, OpenIDPropertyEnum prop)
         {
             return "";
         }
 
-        private GenericLoginFramework.OAuth.Providers.OAuthProvider GetOAuthProvider(GenericLoginFramework.GLF.OAuthProvider pro)
+        private OAuthProvider GetOAuthProvider(OAuthProviderEnum pro)
         {
             Type providerType = Type.GetType(String.Format("GenericLoginFramework.OAuth.Providers.{0}", pro.ToString()));
 
-            GenericLoginFramework.OAuth.Providers.OAuthProvider provider = (GenericLoginFramework.OAuth.Providers.OAuthProvider)providerType.GetProperty("Instance").GetValue(null, null);
+            OAuthProvider provider = (OAuthProvider)providerType.GetProperty("Instance").GetValue(null, null);
 
             return provider;
         }

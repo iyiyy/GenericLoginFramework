@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace GenericLoginFramework.OAuth.Resources
+﻿namespace GenericLoginFramework.OAuth.Resources
 {
     public class FacebookResource : OAuthResource
     {
@@ -17,9 +14,7 @@ namespace GenericLoginFramework.OAuth.Resources
         public string Timezone { get; set; }
         public string UpdatedTime { get; set; }
         public string Verified { get; set; }
-
-        //public string UserID { get; set; }
-        [Key, ForeignKey("User")]
-        public virtual User User { get; set; }
+        
+        public override User User { get; set; }
     }
 }
