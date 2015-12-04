@@ -49,6 +49,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="images\facebook.png" />
+    <Resource Include="images\google.png" />
     <Content Include="index.html" />
     <Content Include="stylesheet.css" />
   </ItemGroup>

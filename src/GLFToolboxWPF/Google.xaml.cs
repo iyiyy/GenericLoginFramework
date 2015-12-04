@@ -1,0 +1,25 @@
+﻿using GenericLoginFramework;
+using System.Globalization;
+using System.Windows;
+using System.Windows.Controls;
+
+namespace GLFToolboxWPF
+{
+    /// <summary>
+    /// Interaction logic for Google.xaml.
+    /// </summary>
+    [ProvideToolboxControl("GLFToolboxWPF.Google", true)]
+    public partial class Google : UserControl
+    {
+        public User User { private set; get; }
+        public Google()
+        {
+            InitializeComponent();
+        }
+
+        private void GoogleBtn_Click(object sender, RoutedEventArgs e)
+        {
+            //User = GLF.LoginWithGoogle();
+        }
+    }
+}
