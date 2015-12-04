@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Data.Entity;
+using System.Linq.Expressions;
 using GenericLoginFramework.Database;
 using GenericLoginFramework.OAuth.Resources;
 using GenericLoginFramework.OAuth.Providers;
@@ -80,29 +82,34 @@ namespace GenericLoginFramework
             OAuthProvider provider = GetOAuthProvider(pro);
             OAuthResource resource = await provider.GetResourceFromToken(token);
 
-            User user;
+            User user = null;
+
             using(GLFDbContext db = new GLFDbContext(DbName, IsConnString))
             {
 
-                user = db.Users.Where(u => (u.GetType().GetProperty(pro.ToString()).GetValue(u)).GetType().GetProperty("ID").GetValue((u.GetType().GetProperty(pro.ToString()).GetValue(u))).ToString() == resource.ID).FirstOrDefault();
+                if (pro == OAuthProviderEnum.FacebookProvider)
+                {
+                    user = db.Users.Where(u => u.FacebookResource.ID == resource.ID)
+                                   .Include(u => u.FacebookResource)
+                                   .Include(u => u.GoogleResource)
+                                   .FirstOrDefault();
+                }
 
-                /*user = (from u in db.Users
-                        where u.FacebookResource.ID == resource.ID
-                        select u).FirstOrDefault();*/
-
-                Type type = user.GetType();
-                PropertyInfo property = type.GetProperty(resource.GetType().ToString(), BindingFlags.Public | BindingFlags.Instance);
 
                 if (user != null)
                 {
-                    property.SetValue(user, resource, null);
+                    if(pro == OAuthProviderEnum.FacebookProvider)
+                    {
+                        db.Entry(user.FacebookResource).CurrentValues.SetValues(resource);
+                    }
                 }
                 else
                 {
-                    user = new User { ID = Guid.NewGuid() };
+                    Type type = typeof(User);
+                    PropertyInfo property = type.GetProperty(resource.GetType().Name, BindingFlags.Public | BindingFlags.Instance);
+                    user = new User ();
                     property.SetValue(user, resource, null);
                     db.Users.Add(user);
-                    
                 }
                 db.SaveChanges();
             }
