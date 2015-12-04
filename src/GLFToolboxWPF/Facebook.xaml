@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="GLFToolboxWPF.Facebook"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="37.0" d:DesignWidth="200.0">
+    <Grid>
+        <Button Height="37" Width="200" Background="#4767A8" HorizontalAlignment="Left" Name="FacebookBtn" BorderThickness="0" Click="FacebookBtn_Click">
+            <StackPanel Orientation="Horizontal">
+                <Image Width="40" Source="pack://application:,,,/GLFToolboxWPF;component/images/facebook.png" />
+                <TextBlock x:Name="Facebook_Text" TextAlignment="Left" VerticalAlignment="Center" Width="160" Foreground="White"><Run Text="Login with Facebook"/></TextBlock>
+            </StackPanel>
+        </Button>
+    </Grid>
+</UserControl>
