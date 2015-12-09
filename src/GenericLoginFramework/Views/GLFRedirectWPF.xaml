@@ -7,7 +7,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <Label x:Name="label" Content="Label" HorizontalAlignment="Left" Margin="117,158,0,0" VerticalAlignment="Top"/>
-
+        <WebBrowser x:Name="browser" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
     </Grid>
 </UserControl>

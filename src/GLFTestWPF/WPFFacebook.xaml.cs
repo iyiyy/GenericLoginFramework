@@ -27,7 +27,14 @@ namespace GLFTestWPF
 
         private async void btn_facebook_login_Click(object sender, RoutedEventArgs e)
         {
-            User user = await GLF.Instance.LoginWithFacebook(GLF.ProjectType.WPF);
+            User user;
+
+            GenericLoginFramework.Providers.FacebookProvider.Instance.UsedFlow = GLF.ProviderFlow.AuthorizationCode;
+            user = await GLF.Instance.LoginWithFacebook(GLF.ProjectType.WPF);
+            txtbx_user_result.Text = user.ToString();
+
+            GenericLoginFramework.Providers.FacebookProvider.Instance.UsedFlow = GLF.ProviderFlow.Implicit;
+            user = await GLF.Instance.LoginWithFacebook(GLF.ProjectType.WPF);
             txtbx_user_result.Text = user.ToString();
         }
     }

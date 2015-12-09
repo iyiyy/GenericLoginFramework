@@ -67,18 +67,23 @@ namespace GenericLoginFramework
             switch (type)
             {
                 case ProjectType.WPF:
+                    Views.GLFRedirectWPF contentWPF = new Views.GLFRedirectWPF(FacebookProvider.Instance.FullyQualifiedLoginEndpoint(), FacebookProvider.Instance.UsedFlow);
                     window = new Window
                     {
                         Title = "Facebook Login",
-                        Content = new Views.GLFRedirectWPF()
+                        Content = contentWPF
                     };
                     window.ShowDialog();
+                    response = contentWPF.Response;
+                    Console.WriteLine(response);
                     break;
                 case ProjectType.WF:
+                    Views.GLFRedirectWF contentWF = new Views.GLFRedirectWF();
+                    contentWF.Dock = System.Windows.Forms.DockStyle.Top;
                     window = new Window
                     {
                         Title = "Facebook Login",
-                        Content = new Views.GLFRedirectWPF()
+                        Content = contentWF
                     };
                     window.ShowDialog();
                     break;
