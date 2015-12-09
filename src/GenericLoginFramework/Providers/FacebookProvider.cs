@@ -60,7 +60,7 @@ namespace GenericLoginFramework.Providers
             return new Resource
             {
                 ID = JSON["id"],
-                Name = JSON["name"],
+                Name = JSON["first_name"],
                 LastName = JSON["last_name"],
                 Type = "Facebook"
             };

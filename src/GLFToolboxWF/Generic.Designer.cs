@@ -106,4 +106,3 @@ namespace GLFToolboxWF
         private System.Windows.Forms.Label PasswordLbl;
     }
 }
-}
