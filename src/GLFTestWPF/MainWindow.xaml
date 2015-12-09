@@ -5,6 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GLFTestWPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid/>
+        Title="WPF Test" Height="200" Width="275">
+    <Grid>
+        <Button x:Name="btn_facebook" Content="Facebook" HorizontalAlignment="Left" Margin="100,20,0,0" VerticalAlignment="Top" Width="75" Click="btn_facebook_Click"/>
+        <Button x:Name="btn_google" Content="Google" HorizontalAlignment="Left" Margin="100,75,0,0" VerticalAlignment="Top" Width="75" Click="btn_google_Click"/>
+        <Button x:Name="btn_generic" Content="Generic" HorizontalAlignment="Left" Margin="100,130,0,0" VerticalAlignment="Top" Width="75" Click="btn_generic_Click"/>
+    </Grid>
 </Window>

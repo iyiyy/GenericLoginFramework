@@ -54,6 +54,27 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WFFacebook.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WFFacebook.Designer.cs">
+      <DependentUpon>WFFacebook.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WFGeneric.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WFGeneric.Designer.cs">
+      <DependentUpon>WFGeneric.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WFGoogle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WFGoogle.Designer.cs">
+      <DependentUpon>WFGoogle.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -63,6 +84,15 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="WFFacebook.resx">
+      <DependentUpon>WFFacebook.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WFGeneric.resx">
+      <DependentUpon>WFGeneric.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WFGoogle.resx">
+      <DependentUpon>WFGoogle.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -75,6 +105,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GenericLoginFramework\GenericLoginFramework.csproj">
+      <Project>{42959b2e-771c-4c9c-94bd-d2889f1e0710}</Project>
+      <Name>GenericLoginFramework</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

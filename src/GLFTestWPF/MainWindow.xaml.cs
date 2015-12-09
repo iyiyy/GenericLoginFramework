@@ -24,5 +24,23 @@ namespace GLFTestWPF
         {
             InitializeComponent();
         }
+
+        private void btn_facebook_Click(object sender, RoutedEventArgs e)
+        {
+            WPFFacebook window = new WPFFacebook();
+            window.ShowDialog();
+        }
+
+        private void btn_google_Click(object sender, RoutedEventArgs e)
+        {
+            WPFGoogle window = new WPFGoogle();
+            window.ShowDialog();
+        }
+
+        private void btn_generic_Click(object sender, RoutedEventArgs e)
+        {
+            WPFGeneric window = new WPFGeneric();
+            window.ShowDialog();
+        }
     }
 }
