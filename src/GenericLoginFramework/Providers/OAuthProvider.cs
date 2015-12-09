@@ -12,10 +12,11 @@ namespace GenericLoginFramework.Providers
 		public bool Enabled { get; private set; }
 		public string AppID { get; set; }
 		public string AppSecret { get; set; }
-		public string Scope { get; set; }
+		public abstract string Scope { get; set; }
 		public string State { get; set; }
-		public GLF.ProviderFlow UsedFlow { get; set; } = GLF.ProviderFlow.AuthorizationCode;
-		public abstract string LoginEndpoint { get; set; }
+		public GLF.ProviderFlow UsedFlow { get; private set; } = GLF.ProviderFlow.AuthorizationCode;
+        public abstract string RedirectURI { get; set; }
+        public abstract string LoginEndpoint { get; set; }
 		public abstract string ResourceEndpoint { get; set; }
 
 		public string ResponseType
@@ -25,10 +26,26 @@ namespace GenericLoginFramework.Providers
 				return GLF.FlowToResponseType(this.UsedFlow);
 			}
 		}
-		#endregion
+        #endregion
 
-		#region Methods
-		public virtual void Enable(string appID)
+        #region Methods
+        public abstract Task<string> GetTokenFromGrant(string grant);
+        public abstract Task<Resource> GetResourceFromToken(string token);
+        protected abstract Resource ConvertJSONToResource(string JSONString);
+
+        public virtual User GetUserFromResource(Resource resource)
+        {
+            CheckIfEnabled();
+
+            User user = null;
+            using (GLFDbContext db = new GLFDbContext(GLF.Instance.DBName, GLF.Instance.DBIsConnName))
+            {
+                user = db.Users.Where(u => u.Resources.Contains(resource)).FirstOrDefault();
+            }
+            return user;
+        }
+
+        public virtual void Enable(string appID)
 		{
 			this.AppID = appID;
 			this.UsedFlow = GLF.ProviderFlow.Implicit;
@@ -43,14 +60,16 @@ namespace GenericLoginFramework.Providers
 			this.Enabled = true;
 		}
 
-		public abstract string GetTokenFromGrant(string grant);
-		public abstract Resource GetResourceFromToken(string token);
-		public abstract User GetUserFromResource(Resource resource);
         public virtual string FullyQualifiedLoginEndpoint()
         {
-            throw new NotImplementedException();
+            return String.Format("{0}?client_id={1}&response_type={2}&redirect_uri={3}", LoginEndpoint, AppID, ResponseType, RedirectURI);
         }
-        protected abstract Resource ConvertJSONToResource(string JSON);
+
+        public virtual void CheckIfEnabled()
+        {
+            if (!Enabled)
+                throw new Exception(String.Format("{0} has not been enabled yet. Please enable if before calling this method.", this.GetType().Name));
+        }
 		#endregion
 	}
 }

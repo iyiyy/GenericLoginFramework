@@ -15,7 +15,7 @@ namespace GenericLoginFramework
 		public string Age { get; set; }
 		public string Email { get; set; }
 		public string Type { get; set; }
-        public string User { get; set; }
+        public User User { get; set; }
 		#endregion
 	}
 }
