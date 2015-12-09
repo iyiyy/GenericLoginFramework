@@ -26,7 +26,7 @@ namespace GLFToolboxASP
             imageButton.Click += new ImageClickEventHandler(imageButton_Click);
             imageButton.ImageUrl = Page.ClientScript.GetWebResourceUrl(this.GetType(), "GLFToolboxASP.images.google_bred.png");
 
-            //Add child controls to CustomCalendar control
+            //Add child controls to Custom control
             this.Controls.Add(imageButton);
         }
 
