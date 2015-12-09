@@ -10,25 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using GenericLoginFramework;
 
-namespace GLFTestWPF
+namespace GenericLoginFramework.Views
 {
     /// <summary>
-    /// Interaction logic for WPFFacebook.xaml
+    /// Interaction logic for GLFRedirectWPF.xaml
     /// </summary>
-    public partial class WPFFacebook : Window
+    public partial class GLFRedirectWPF : UserControl
     {
-        public WPFFacebook()
+        public GLFRedirectWPF()
         {
             InitializeComponent();
-        }
-
-        private async void btn_facebook_login_Click(object sender, RoutedEventArgs e)
-        {
-            User user = await GLF.Instance.LoginWithFacebook(GLF.ProjectType.WPF);
-            txtbx_user_result.Text = user.ToString();
         }
     }
 }

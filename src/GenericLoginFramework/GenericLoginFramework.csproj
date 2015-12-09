@@ -58,6 +58,7 @@
     </Reference>
     <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -76,12 +77,31 @@
     <Compile Include="Providers\OpenIDProvider.cs" />
     <Compile Include="Resource.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="Views\GLFRedirectWF.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\GLFRedirectWF.Designer.cs">
+      <DependentUpon>GLFRedirectWF.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GLFRedirectWPF.xaml.cs">
+      <DependentUpon>GLFRedirectWPF.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Page Include="Views\GLFRedirectWPF.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\GLFRedirectWF.resx">
+      <DependentUpon>GLFRedirectWF.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">

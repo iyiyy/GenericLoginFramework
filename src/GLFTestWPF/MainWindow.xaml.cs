@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using GenericLoginFramework;
 
 namespace GLFTestWPF
 {
@@ -23,6 +24,8 @@ namespace GLFTestWPF
         public MainWindow()
         {
             InitializeComponent();
+            GLF.Instance.InitializeDB("WPFTest");
+            GenericLoginFramework.Providers.FacebookProvider.Instance.Enable("624408054367639", "3ee73a2a0c243edff171618669a7b1a3");
         }
 
         private void btn_facebook_Click(object sender, RoutedEventArgs e)

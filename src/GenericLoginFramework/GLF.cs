@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
 using GenericLoginFramework.Providers;
+using System.Windows;
 
 namespace GenericLoginFramework
 {
@@ -61,12 +62,25 @@ namespace GenericLoginFramework
 		{
             User ret = null;
             string response = "";
+            Window window;
 
             switch (type)
             {
                 case ProjectType.WPF:
+                    window = new Window
+                    {
+                        Title = "Facebook Login",
+                        Content = new Views.GLFRedirectWPF()
+                    };
+                    window.ShowDialog();
                     break;
                 case ProjectType.WF:
+                    window = new Window
+                    {
+                        Title = "Facebook Login",
+                        Content = new Views.GLFRedirectWPF()
+                    };
+                    window.ShowDialog();
                     break;
                 case ProjectType.ASP:
                     break;
@@ -74,14 +88,13 @@ namespace GenericLoginFramework
                     break;
             }
 
-            if (FacebookProvider.Instance.UsedFlow == ProviderFlow.AuthorizationCode)
+            if (FacebookProvider.Instance.UsedFlow == ProviderFlow.AuthorizationCode || FacebookProvider.Instance.UsedFlow == ProviderFlow.Implicit)
             {
-                string token = await FacebookProvider.Instance.GetTokenFromGrant(response);
-                Resource resource = await FacebookProvider.Instance.GetResourceFromToken(token);
-                ret = FacebookProvider.Instance.GetUserFromResource(resource);
-            }
-            else if (FacebookProvider.Instance.UsedFlow == ProviderFlow.Implicit)
-            {
+                if (FacebookProvider.Instance.UsedFlow == ProviderFlow.AuthorizationCode)
+                {
+                    response = await FacebookProvider.Instance.GetTokenFromGrant(response);
+                }
+
                 Resource resource = await FacebookProvider.Instance.GetResourceFromToken(response);
                 ret = FacebookProvider.Instance.GetUserFromResource(resource);
             }
