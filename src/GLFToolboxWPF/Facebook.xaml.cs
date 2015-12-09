@@ -8,7 +8,7 @@ namespace GLFToolboxWPF
     /// <summary>
     /// Interaction logic for Facebook.xaml.
     /// </summary>
-    [ProvideToolboxControl("GLFToolboxWPF.Facebook", true)]
+    [ProvideToolboxControl("Generic Login Framework", true)]
     public partial class Facebook : UserControl
     {
         public User User { private set; get; }

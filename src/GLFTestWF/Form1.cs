@@ -16,5 +16,23 @@ namespace GLFTestWF
         {
             InitializeComponent();
         }
+
+        private void btn_facebook_Click(object sender, EventArgs e)
+        {
+            WFFacebook window = new WFFacebook();
+            window.ShowDialog();
+        }
+
+        private void btn_google_Click(object sender, EventArgs e)
+        {
+            WFGoogle window = new WFGoogle();
+            window.ShowDialog();
+        }
+
+        private void btn_generic_Click(object sender, EventArgs e)
+        {
+            WFGeneric window = new WFGeneric();
+            window.ShowDialog();
+        }
     }
 }

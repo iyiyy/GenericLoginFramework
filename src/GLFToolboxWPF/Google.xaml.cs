@@ -8,7 +8,7 @@ namespace GLFToolboxWPF
     /// <summary>
     /// Interaction logic for Google.xaml.
     /// </summary>
-    [ProvideToolboxControl("GLFToolboxWPF.Google", true)]
+    [ProvideToolboxControl("Generic Login Framework", true)]
     public partial class Google : UserControl
     {
         public User User { private set; get; }

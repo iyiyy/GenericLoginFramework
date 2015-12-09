@@ -23,7 +23,7 @@ namespace GenericLoginFramework
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Types().Configure(entity => entity.ToTable(String.Format("glf.{0}"), entity.ClrType.Name));
+            modelBuilder.Types().Configure(entity => entity.ToTable("glf." + entity.ClrType.Name));
             modelBuilder.Entity<User>().HasOptional(user => user.Resources);
             modelBuilder.Entity<Resource>().HasRequired(resource => resource.User);
         }
