@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("GLFToolboxASP")]
+[assembly: AssemblyTitle("GLFTestConsole")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("GLFToolboxASP")]
+[assembly: AssemblyProduct("GLFTestConsole")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("7cedc9e4-5fce-4b9a-9db3-5e721551889e")]
+[assembly: Guid("1f468a8c-18d0-4c89-ad07-4fa38285aac6")]
 
 // Version information for an assembly consists of the following four values:
 //
