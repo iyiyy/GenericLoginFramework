@@ -8,7 +8,7 @@ namespace GLFToolboxWPF
     /// <summary>
     /// Interaction logic for Generic.xaml.
     /// </summary>
-    [ProvideToolboxControl("GLFToolboxWPF.Generic", true)]
+    [ProvideToolboxControl("Generic Login Framework", true)]
     public partial class Generic : UserControl
     {
         public User User { private set; get; }
