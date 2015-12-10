@@ -51,6 +51,12 @@
     <EmbeddedResource Include="images\generic_bred.png" />
     <EmbeddedResource Include="images\google_bred.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GenericLoginFramework\GenericLoginFramework.csproj">
+      <Project>{42959b2e-771c-4c9c-94bd-d2889f1e0710}</Project>
+      <Name>GenericLoginFramework</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
