@@ -94,18 +94,19 @@ namespace GenericLoginFramework
                     break;
             }
 
-            if (FacebookProvider.Instance.UsedFlow == ProviderFlow.AuthorizationCode || FacebookProvider.Instance.UsedFlow == ProviderFlow.Implicit)
+            if (FacebookProvider.Instance.UsedFlow == ProviderFlow.AuthorizationCode)
             {
-                if (FacebookProvider.Instance.UsedFlow == ProviderFlow.AuthorizationCode)
-                {
-                    response = await FacebookProvider.Instance.GetTokenFromGrant(response);
-                }
-
+                response = await FacebookProvider.Instance.GetTokenFromGrant(response);
+                Resource resource = await FacebookProvider.Instance.GetResourceFromToken(response);
+                ret = FacebookProvider.Instance.GetUserFromResource(resource);
+            }
+            else if (FacebookProvider.Instance.UsedFlow == ProviderFlow.Implicit)
+            {
                 Resource resource = await FacebookProvider.Instance.GetResourceFromToken(response);
                 ret = FacebookProvider.Instance.GetUserFromResource(resource);
             }
             else
-                throw new NotImplementedException();
+                throw new NotImplementedException(String.Format("Flow {0} not support.", FacebookProvider.Instance.UsedFlow.ToString()));
 
             return ret;
         }
@@ -174,6 +175,16 @@ namespace GenericLoginFramework
             }
         }
 
+        public void AddResourceToExistingUser(User user, Resource resource)
+        {
+            resource.User = user;
+            using (GLFDbContext db = new GLFDbContext(DBName, DBIsConnName))
+            {
+                db.Resources.Add(resource);
+                db.SaveChanges();
+            }
+        }
+
 		public static string FlowToResponseType(ProviderFlow flow)
 		{
 			string result = "";
@@ -196,6 +207,21 @@ namespace GenericLoginFramework
 
 			return result;
 		}
+
+        public static string UserToString(User user)
+        {
+            string ret = "";
+
+            ret += String.Format("ID: {0}\nVerified: {1}\nUsername: {2}\nPassword: {3}", user.ID.ToString(), user.Verified, user.Username, BitConverter.ToString(user.Password));
+
+            foreach (var resource in user.Resources)
+            {
+                ret += "\n-----Resource-----\n";
+                ret += String.Format("ID: {0}\nName: {1}\nLastname: {2}\nAge: {3}\nEmail: {4}\nType: {5}\n", resource.ID, resource.Name, resource.LastName, resource.Age, resource.Email, resource.Type);
+            }
+            
+            return ret;
+        }
 
         public static byte[] Hash(string value, string salt)
         {

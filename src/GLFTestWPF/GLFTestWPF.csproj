@@ -67,6 +67,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ToolboxTest.xaml.cs">
+      <DependentUpon>ToolboxTest.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WPFFacebook.xaml.cs">
       <DependentUpon>WPFFacebook.xaml</DependentUpon>
     </Compile>
@@ -88,6 +91,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ToolboxTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="WPFFacebook.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -133,6 +140,10 @@
     <ProjectReference Include="..\GenericLoginFramework\GenericLoginFramework.csproj">
       <Project>{42959b2e-771c-4c9c-94bd-d2889f1e0710}</Project>
       <Name>GenericLoginFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GLFToolboxWPF\GLFToolboxWPF.csproj">
+      <Project>{52ddfea5-01b7-48c7-b423-3b6d77e16bf5}</Project>
+      <Name>GLFToolboxWPF</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -12,6 +12,7 @@ namespace GLFToolboxWPF
     public partial class Facebook : UserControl
     {
         public User User { private set; get; }
+        public event RoutedEventHandler Click;
         public Facebook()
         {
             InitializeComponent();
@@ -20,6 +21,8 @@ namespace GLFToolboxWPF
         private async void FacebookBtn_Click(object sender, RoutedEventArgs e)
         {
             User = await GLF.Instance.LoginWithFacebook();
+            if (this.Click != null)
+                this.Click(sender, e);
         }
     }
 }
