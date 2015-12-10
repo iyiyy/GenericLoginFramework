@@ -8,7 +8,6 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 
 [assembly: WebResource("GLFToolboxASP.images.facebook_bred.png", "img/png")]
-[assembly: WebResource("GLFToolboxASP.facebook_bred.png", "img/png")]
 [assembly: TagPrefix("GLFToolboxASP", "Facebook")]
 namespace GLFToolboxASP
 {

@@ -50,6 +50,13 @@ namespace GLFToolboxASP
             passwordLbl.Text = "<br />Password<br />";
             breakLbl = new Label();
             breakLbl.Text = "<br /><br />";
+
+            this.Controls.Add(imageButton);
+            this.Controls.Add(usernameTxtbx);
+            this.Controls.Add(passwordTxtbx);
+            this.Controls.Add(usernameLbl);
+            this.Controls.Add(passwordLbl);
+            this.Controls.Add(breakLbl);
         }
 
         void imageButton_Click(object sender, ImageClickEventArgs e)
