@@ -36,6 +36,8 @@ namespace GenericLoginFramework.Providers
         public abstract Task<Resource> GetResourceFromToken(string token);
         protected abstract Resource ConvertJSONToResource(string JSONString);
 
+        public abstract dynamic Instance();
+
         public virtual User GetUserFromResource(Resource resource)
         {
             CheckIfEnabled();

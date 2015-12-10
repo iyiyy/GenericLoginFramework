@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Security.Cryptography;
 using GenericLoginFramework.Providers;
 using System.Windows;
+using System.Data.Entity;
 
 namespace GenericLoginFramework
 {
@@ -56,7 +57,13 @@ namespace GenericLoginFramework
 
         public User LoginWithGeneric(string username, string password)
         {
-            throw new NotImplementedException();
+            using (GLFDbContext db = new GLFDbContext(DBName, DBIsConnName))
+            {
+                User user = db.Users.Where(u => u.Username == username).Include(u => u.Resources).FirstOrDefault();
+                if (BitConverter.ToString(user.Password) == BitConverter.ToString(Hash(password, user.ID.ToByteArray())))
+                    return user;
+            }
+            return null;
         }
 
 		public async Task<User> LoginWithFacebook()
@@ -146,19 +153,40 @@ namespace GenericLoginFramework
         }
 
 		public User LoginWithCustomProvider<T>() where T : OAuthProvider
-		{
+        {
+            User ret = null;
+            string response = "";
+            Window window;
+
             switch (TypeOfProject)
             {
                 case ProjectType.WPF:
+                    Views.GLFRedirectWPF contentWPF = new Views.GLFRedirectWPF(T.Instance().FullyQualifiedLoginEndpoint(), FacebookProvider.Instance.UsedFlow);
+                    window = new Window
+                    {
+                        Title = "Facebook Login",
+                        Content = contentWPF
+                    };
+                    window.ShowDialog();
+                    response = contentWPF.Response;
+                    Console.WriteLine(response);
                     break;
                 case ProjectType.WF:
+                    Views.GLFRedirectWF contentWF = new Views.GLFRedirectWF();
+                    contentWF.Dock = System.Windows.Forms.DockStyle.Top;
+                    window = new Window
+                    {
+                        Title = "Facebook Login",
+                        Content = contentWF
+                    };
+                    window.ShowDialog();
                     break;
                 case ProjectType.ASP:
                     break;
                 default:
                     break;
             }
-            return null;
+            return ret;
         }
 
         public void InitializeDB(string name = "GenericLoginFramework", bool isConnName = false)

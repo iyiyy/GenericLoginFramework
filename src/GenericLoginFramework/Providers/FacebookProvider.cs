@@ -15,7 +15,15 @@ namespace GenericLoginFramework.Providers
         public override string LoginEndpoint { get; set; } = "https://www.facebook.com/dialog/oauth";
         public override string ResourceEndpoint { get; set; } = "https://graph.facebook.com/me";
         public override string Scope { get; set; } = "email";
-        public static FacebookProvider Instance
+
+        public override dynamic Instance()
+        {
+            if (_instance == null)
+                _instance = new FacebookProvider();
+            return _instance;
+        }
+
+        /*public static FacebookProvider Instance
         {
             get
             {
@@ -23,7 +31,7 @@ namespace GenericLoginFramework.Providers
                     _instance = new FacebookProvider();
                 return _instance;
             }
-        }
+        }*/
 
         private FacebookProvider() { }
 
