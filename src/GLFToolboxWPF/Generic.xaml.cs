@@ -20,7 +20,7 @@ namespace GLFToolboxWPF
 
         private void loginBtn_Click(object sender, RoutedEventArgs e)
         {
-            //User = GLF.LoginWithGeneric(usernameBox.Text, passwordBox.Password);
+            User = GLF.Instance.LoginWithGeneric(usernameBox.Text, passwordBox.Password);
         }
     }
 }
