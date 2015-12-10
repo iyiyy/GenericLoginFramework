@@ -17,9 +17,9 @@ namespace GLFToolboxWPF
             InitializeComponent();
         }
 
-        private void GoogleBtn_Click(object sender, RoutedEventArgs e)
+        private async void GoogleBtn_Click(object sender, RoutedEventArgs e)
         {
-            //User = GLF.LoginWithGoogle();
+            User = await GLF.Instance.LoginWithGoogle();
         }
     }
 }

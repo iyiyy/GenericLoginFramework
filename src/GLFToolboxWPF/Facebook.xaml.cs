@@ -17,9 +17,9 @@ namespace GLFToolboxWPF
             InitializeComponent();
         }
 
-        private void FacebookBtn_Click(object sender, RoutedEventArgs e)
+        private async void FacebookBtn_Click(object sender, RoutedEventArgs e)
         {
-            //User = GLF.LoginWithFacebook();
+            User = await GLF.Instance.LoginWithFacebook();
         }
     }
 }

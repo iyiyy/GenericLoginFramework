@@ -25,6 +25,7 @@ namespace GLFTestWPF
         {
             InitializeComponent();
             GLF.Instance.InitializeDB("WPFTest");
+            GLF.Instance.TypeOfProject = GLF.ProjectType.WPF;
             GenericLoginFramework.Providers.FacebookProvider.Instance.Enable("624408054367639", "3ee73a2a0c243edff171618669a7b1a3");
         }
 

@@ -34,6 +34,7 @@ namespace GenericLoginFramework
 		public bool DBInitialized { get; private set; }
         public string DBName { get; set; } = "GenericLoginFramework";
         public bool DBIsConnName { get; set; } = false;
+        public ProjectType TypeOfProject { get; set; }
 
         public static GLF Instance
         {
@@ -58,13 +59,13 @@ namespace GenericLoginFramework
             throw new NotImplementedException();
         }
 
-		public async Task<User> LoginWithFacebook(ProjectType type)
+		public async Task<User> LoginWithFacebook()
 		{
             User ret = null;
             string response = "";
             Window window;
 
-            switch (type)
+            switch (TypeOfProject)
             {
                 case ProjectType.WPF:
                     Views.GLFRedirectWPF contentWPF = new Views.GLFRedirectWPF(FacebookProvider.Instance.FullyQualifiedLoginEndpoint(), FacebookProvider.Instance.UsedFlow);
@@ -109,12 +110,12 @@ namespace GenericLoginFramework
             return ret;
         }
 
-		public async Task<User> LoginWithGoogle(ProjectType type)
+		public async Task<User> LoginWithGoogle()
         {
             User ret = null;
             string response = "";
 
-            switch (type)
+            switch (TypeOfProject)
             {
                 case ProjectType.WPF:
                     break;
@@ -143,9 +144,9 @@ namespace GenericLoginFramework
             return ret;
         }
 
-		public User LoginWithCustomProvider<T>(ProjectType type) where T : OAuthProvider
+		public User LoginWithCustomProvider<T>() where T : OAuthProvider
 		{
-            switch (type)
+            switch (TypeOfProject)
             {
                 case ProjectType.WPF:
                     break;
