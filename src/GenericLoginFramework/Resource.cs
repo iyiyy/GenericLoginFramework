@@ -17,12 +17,5 @@ namespace GenericLoginFramework
 		public string Type { get; set; }
         public User User { get; set; }
         #endregion
-
-        #region Methods
-        public override string ToString()
-        {
-            return String.Format("ID: {0}\nName: {1}\nLastname: {2}\nAge: {3}\nEmail: {4}\nType: {5}", ID, Name, LastName, Age, Email, Type);
-        }
-        #endregion
     }
 }

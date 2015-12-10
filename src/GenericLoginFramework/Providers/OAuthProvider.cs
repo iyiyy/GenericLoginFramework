@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace GenericLoginFramework.Providers
 {
@@ -14,7 +17,7 @@ namespace GenericLoginFramework.Providers
 		public string AppSecret { get; set; }
 		public abstract string Scope { get; set; }
 		public string State { get; set; }
-		public GLF.ProviderFlow UsedFlow { get; private set; } = GLF.ProviderFlow.AuthorizationCode;
+		public GLF.ProviderFlow UsedFlow { get; set; } = GLF.ProviderFlow.AuthorizationCode;
         public abstract string RedirectURI { get; set; }
         public abstract string LoginEndpoint { get; set; }
 		public abstract string ResourceEndpoint { get; set; }
@@ -33,6 +36,8 @@ namespace GenericLoginFramework.Providers
         public abstract Task<Resource> GetResourceFromToken(string token);
         protected abstract Resource ConvertJSONToResource(string JSONString);
 
+        public abstract dynamic Instance();
+
         public virtual User GetUserFromResource(Resource resource)
         {
             CheckIfEnabled();
@@ -40,8 +45,26 @@ namespace GenericLoginFramework.Providers
             User user = null;
             using (GLFDbContext db = new GLFDbContext(GLF.Instance.DBName, GLF.Instance.DBIsConnName))
             {
-                user = db.Users.Where(u => u.Resources.Contains(resource)).FirstOrDefault();
+                Resource res = db.Resources.Where(r => r.ID == resource.ID).Include(r => r.User).FirstOrDefault();
+
+                if(res != null)
+                    user = res.User;
+
+                if (user != null)
+                {
+                        db.Entry(res).CurrentValues.SetValues(resource);
+                }
+                else
+                {
+                    user = new User();
+                    resource.User = user;
+                    user.Resources.Add(resource);
+                    db.Users.Add(user);
+                }
+
+                db.SaveChanges();
             }
+
             return user;
         }
 

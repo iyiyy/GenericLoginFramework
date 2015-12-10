@@ -6,6 +6,7 @@ using System.Security.Permissions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using GenericLoginFramework;
 
 [assembly: WebResource("GLFToolboxASP.images.google_bred.png", "img/png")]
 [assembly: TagPrefix("GLFToolboxASP", "Google")]
@@ -32,7 +33,7 @@ namespace GLFToolboxASP
 
         void imageButton_Click(object sender, ImageClickEventArgs e)
         {
-            HttpContext.Current.Response.Redirect("http://www.google.com");
+            HttpContext.Current.Response.Redirect(@GenericLoginFramework.Providers.GoogleProvider.Instance.FullyQualifiedLoginEndpoint());
         }
 
         protected override void RecreateChildControls()

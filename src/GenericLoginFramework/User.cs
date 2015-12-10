@@ -24,7 +24,8 @@ namespace GenericLoginFramework
             }
             set
             {
-                _password = GLF.Hash(value, ID.ToByteArray());
+                if(value.Length > 0)
+                    _password = GLF.Hash(value, ID.ToByteArray());
             }
         }
 		#endregion
@@ -34,21 +35,6 @@ namespace GenericLoginFramework
 		{
 			this.ID = Guid.NewGuid();
 			this.Resources = new List<Resource>();
-        }
-
-        public override string ToString()
-        {
-            string ret = "";
-
-            ret += String.Format("ID: {0}\nVerified: {1}\nUsername: {2}\nPassword: {3}", ID.ToString(), Verified, Username, Password.ToString());
-
-            foreach (var resource in Resources)
-            {
-                ret += "-----Resource-----";
-                ret += resource.ToString();
-            }
-
-            return ret;
         }
         #endregion
     }
