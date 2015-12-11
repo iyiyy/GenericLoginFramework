@@ -60,7 +60,7 @@ namespace GenericLoginFramework
             using (GLFDbContext db = new GLFDbContext(DBName, DBIsConnName))
             {
                 User user = db.Users.Where(u => u.Username == username).Include(u => u.Resources).FirstOrDefault();
-                if (BitConverter.ToString(user.Password) == BitConverter.ToString(Hash(password, user.ID.ToByteArray())))
+                if (user != null && (BitConverter.ToString(user.Password) == BitConverter.ToString(Hash(password, user.ID.ToByteArray()))))
                     return user;
             }
             return null;
@@ -114,7 +114,7 @@ namespace GenericLoginFramework
             }
             else
                 throw new NotImplementedException(String.Format("Flow {0} not support.", FacebookProvider.Instance.UsedFlow.ToString()));
-
+            
             return ret;
         }
 
@@ -158,7 +158,7 @@ namespace GenericLoginFramework
             string response = "";
             Window window;
 
-            switch (TypeOfProject)
+           /* switch (TypeOfProject)
             {
                 case ProjectType.WPF:
                     Views.GLFRedirectWPF contentWPF = new Views.GLFRedirectWPF(T.Instance().FullyQualifiedLoginEndpoint(), FacebookProvider.Instance.UsedFlow);
@@ -185,7 +185,7 @@ namespace GenericLoginFramework
                     break;
                 default:
                     break;
-            }
+            }*/
             return ret;
         }
 
@@ -205,9 +205,11 @@ namespace GenericLoginFramework
 
         public void AddResourceToExistingUser(User user, Resource resource)
         {
-            resource.User = user;
+            //resource.User = user;
             using (GLFDbContext db = new GLFDbContext(DBName, DBIsConnName))
             {
+                User dbUser = db.Users.Where(u => u.ID == user.ID).FirstOrDefault();
+                resource.User = dbUser;
                 db.Resources.Add(resource);
                 db.SaveChanges();
             }
@@ -253,17 +255,29 @@ namespace GenericLoginFramework
 
         public static byte[] Hash(string value, string salt)
         {
-            return Hash(Encoding.UTF8.GetBytes(value), Encoding.UTF8.GetBytes(salt));
+            byte[] valuebytes = new byte[value.Length * sizeof(char)];
+            System.Buffer.BlockCopy(value.ToCharArray(), 0, valuebytes, 0, valuebytes.Length);
+
+            byte[] saltbytes = new byte[salt.Length * sizeof(char)];
+            System.Buffer.BlockCopy(salt.ToCharArray(), 0, saltbytes, 0, saltbytes.Length);
+
+            return Hash(valuebytes, saltbytes);
         }
 
         public static byte[] Hash(byte[] value, string salt)
         {
-            return Hash(value, Encoding.UTF8.GetBytes(salt));
+            byte[] saltbytes = new byte[salt.Length * sizeof(char)];
+            System.Buffer.BlockCopy(salt.ToCharArray(), 0, saltbytes, 0, saltbytes.Length);
+
+            return Hash(value, saltbytes);
         }
 
         public static byte[] Hash(string value, byte[] salt)
         {
-            return Hash(Encoding.UTF8.GetBytes(value), salt);
+            byte[] valuebytes = new byte[value.Length * sizeof(char)];
+            System.Buffer.BlockCopy(value.ToCharArray(), 0, valuebytes, 0, valuebytes.Length);
+
+            return Hash(valuebytes, salt);
         }
 
         public static byte[] Hash(byte[] value, byte[] salt)

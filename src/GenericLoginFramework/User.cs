@@ -9,8 +9,6 @@ namespace GenericLoginFramework
 {
 	public partial class User
 	{
-        private byte[] _password = new Byte[0];
-
 		#region Properties
 		public Guid ID { get; private set; }
         public List<Resource> Resources { get; private set; }
@@ -18,15 +16,8 @@ namespace GenericLoginFramework
         public string Username { get; set; }
 		public byte[] Password
         {
-            get
-            {
-                return _password;
-            }
-            set
-            {
-                if(value.Length > 0)
-                    _password = GLF.Hash(value, ID.ToByteArray());
-            }
+            get;
+            private set;
         }
 		#endregion
 
@@ -35,6 +26,11 @@ namespace GenericLoginFramework
 		{
 			this.ID = Guid.NewGuid();
 			this.Resources = new List<Resource>();
+        }
+
+        public void SetPassword(string password)
+        {
+            Password = GLF.Hash(password, ID.ToByteArray());
         }
         #endregion
     }

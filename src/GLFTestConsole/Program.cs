@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GenericLoginFramework;
 using GenericLoginFramework.Providers;
+using System.Data.Entity;
 
 namespace GLFTestConsole
 {
@@ -14,7 +15,7 @@ namespace GLFTestConsole
         {
             GLF glf = GLF.Instance;
 
-            glf.InitializeDB();
+            glf.InitializeDB("WPFTest");
             FacebookProvider.Instance.Enable("624408054367639", "3ee73a2a0c243edff171618669a7b1a3");
             Console.WriteLine(FacebookProvider.Instance.AppID);
             Console.WriteLine(FacebookProvider.Instance.AppSecret);
@@ -27,9 +28,57 @@ namespace GLFTestConsole
             Console.WriteLine(FacebookProvider.Instance.Scope);
             Console.WriteLine(FacebookProvider.Instance.State);
             Console.WriteLine(FacebookProvider.Instance.UsedFlow);
-
-
             Console.WriteLine("DB was initialized.");
+
+            User user;
+            using (GLFDbContext db = new GLFDbContext(glf.DBName, glf.DBIsConnName))
+            {
+                Resource res = db.Resources.Where(r => r.Name == "Kalle").Include(r => r.User).FirstOrDefault();
+                user = res.User;
+            }
+
+            Resource newRes = new Resource
+            {
+                Age = "24",
+                ID = Guid.NewGuid().ToString(),
+                Email = "test@email.com",
+                Name = "Kalle",
+                LastName = "Pedersen",
+                Type = "TEST",
+                User = user
+            };
+
+            glf.AddResourceToExistingUser(user, newRes);
+            Console.WriteLine("Resource was added to user.");
+
+
+            using (GLFDbContext db = new GLFDbContext(glf.DBName, glf.DBIsConnName))
+            {
+                Resource res = db.Resources.Where(r => r.Name == "Kalle").Include(r => r.User).FirstOrDefault();
+                user = res.User;
+                
+                user.Username = "testbruger";
+                user.SetPassword("password1234");
+
+                db.Users.Attach(user);
+                db.Entry(user).State = EntityState.Modified;
+                db.SaveChanges();
+
+                Console.WriteLine(BitConverter.ToString(user.Password));
+                Console.WriteLine(BitConverter.ToString(GLF.Hash("password1234", user.ID.ToByteArray())));
+            }
+
+            User genuser;
+            genuser = glf.LoginWithGeneric("bruger", "password");
+            Console.WriteLine(String.Format("User with username: {0} and password: {1} exists? {2}", "bruger", "password", genuser != null));
+            genuser = glf.LoginWithGeneric("testbruger", "password");
+            Console.WriteLine(String.Format("User with username: {0} and password: {1} exists? {2}", "testbruger", "password", genuser != null));
+            genuser = glf.LoginWithGeneric("bruger", "password1234");
+            Console.WriteLine(String.Format("User with username: {0} and password: {1} exists? {2}", "bruger", "password1234", genuser != null));
+            genuser = glf.LoginWithGeneric("testbruger", "password1234");
+            Console.WriteLine(String.Format("User with username: {0} and password: {1} exists? {2}", "testbruger", "password1234", genuser != null));
+
+
             Console.ReadKey();
         }
     }

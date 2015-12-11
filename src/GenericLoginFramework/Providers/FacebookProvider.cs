@@ -16,14 +16,7 @@ namespace GenericLoginFramework.Providers
         public override string ResourceEndpoint { get; set; } = "https://graph.facebook.com/me";
         public override string Scope { get; set; } = "email";
 
-        public override dynamic Instance()
-        {
-            if (_instance == null)
-                _instance = new FacebookProvider();
-            return _instance;
-        }
-
-        /*public static FacebookProvider Instance
+        public static FacebookProvider Instance
         {
             get
             {
@@ -31,7 +24,7 @@ namespace GenericLoginFramework.Providers
                     _instance = new FacebookProvider();
                 return _instance;
             }
-        }*/
+        }
 
         private FacebookProvider() { }
 
@@ -55,7 +48,7 @@ namespace GenericLoginFramework.Providers
 
             using (var client = new HttpClient())
             {
-                resource = await client.GetStringAsync(String.Format("{0}?access_token={1}&fields=id,first_name,last_name,link,gender,locale,timezone,updated_time,verified", ResourceEndpoint, token));
+                resource = await client.GetStringAsync(String.Format("{0}?access_token={1}&fields=id,first_name,last_name,email", ResourceEndpoint, token));
             }
 
             return ConvertJSONToResource(resource);
@@ -70,6 +63,7 @@ namespace GenericLoginFramework.Providers
                 ID = JSON["id"],
                 Name = JSON["first_name"],
                 LastName = JSON["last_name"],
+                Email = JSON["email"],
                 Type = "Facebook"
             };
         }
