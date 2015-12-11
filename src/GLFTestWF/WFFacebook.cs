@@ -17,5 +17,12 @@ namespace GLFTestWF
         {
             InitializeComponent();
         }
+
+        private async void loginBtn_Click(object sender, EventArgs e)
+        {
+            User user;
+            user = await GLF.Instance.LoginWithFacebook();
+            resultTxtbx.Text = GLF.UserToString(user);
+        }
     }
 }
