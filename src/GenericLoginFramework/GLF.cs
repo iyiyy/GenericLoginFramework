@@ -75,7 +75,7 @@ namespace GenericLoginFramework
             switch (TypeOfProject)
             {
                 case ProjectType.WPF:
-                    Views.GLFRedirectWPF contentWPF = new Views.GLFRedirectWPF(FacebookProvider.Instance.FullyQualifiedLoginEndpoint(), FacebookProvider.Instance.UsedFlow);
+                    Views.GLFRedirectWPF contentWPF = new Views.GLFRedirectWPF(FacebookProvider.Instance.FullyQualifiedLoginEndpoint(), FacebookProvider.Instance.RedirectURI, FacebookProvider.Instance.UsedFlow);
                     window = new Window
                     {
                         Title = "Facebook Login",
@@ -86,8 +86,8 @@ namespace GenericLoginFramework
                     Console.WriteLine(response);
                     break;
                 case ProjectType.WF:
-                    Views.GLFRedirectWF contentWF = new Views.GLFRedirectWF();
-                    contentWF.Dock = System.Windows.Forms.DockStyle.Top;
+                    Views.GLFRedirectWF contentWF = new Views.GLFRedirectWF(FacebookProvider.Instance.FullyQualifiedLoginEndpoint(), FacebookProvider.Instance.RedirectURI, FacebookProvider.Instance.UsedFlow);
+                    contentWF.Dock = System.Windows.Forms.DockStyle.Fill;
                     window = new Window
                     {
                         Title = "Facebook Login",
@@ -158,34 +158,34 @@ namespace GenericLoginFramework
             string response = "";
             Window window;
 
-           /* switch (TypeOfProject)
-            {
-                case ProjectType.WPF:
-                    Views.GLFRedirectWPF contentWPF = new Views.GLFRedirectWPF(T.Instance().FullyQualifiedLoginEndpoint(), FacebookProvider.Instance.UsedFlow);
-                    window = new Window
-                    {
-                        Title = "Facebook Login",
-                        Content = contentWPF
-                    };
-                    window.ShowDialog();
-                    response = contentWPF.Response;
-                    Console.WriteLine(response);
-                    break;
-                case ProjectType.WF:
-                    Views.GLFRedirectWF contentWF = new Views.GLFRedirectWF();
-                    contentWF.Dock = System.Windows.Forms.DockStyle.Top;
-                    window = new Window
-                    {
-                        Title = "Facebook Login",
-                        Content = contentWF
-                    };
-                    window.ShowDialog();
-                    break;
-                case ProjectType.ASP:
-                    break;
-                default:
-                    break;
-            }*/
+            /* switch (TypeOfProject)
+             {
+                 case ProjectType.WPF:
+                     Views.GLFRedirectWPF contentWPF = new Views.GLFRedirectWPF(T.Instance().FullyQualifiedLoginEndpoint(), FacebookProvider.Instance.UsedFlow);
+                     window = new Window
+                     {
+                         Title = "Facebook Login",
+                         Content = contentWPF
+                     };
+                     window.ShowDialog();
+                     response = contentWPF.Response;
+                     Console.WriteLine(response);
+                     break;
+                 case ProjectType.WF:
+                     Views.GLFRedirectWF contentWF = new Views.GLFRedirectWF(FacebookProvider.Instance.FullyQualifiedLoginEndpoint(), FacebookProvider.Instance.UsedFlow);
+                     contentWF.Dock = System.Windows.Forms.DockStyle.Top;
+                     window = new Window
+                     {
+                         Title = "Facebook Login",
+                         Content = contentWF
+                     };
+                     window.ShowDialog();
+                     break;
+                 case ProjectType.ASP:
+                     break;
+                 default:
+                     break;
+             }*/
             return ret;
         }
 
