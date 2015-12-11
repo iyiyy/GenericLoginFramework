@@ -87,7 +87,7 @@ namespace GenericLoginFramework
                     break;
                 case ProjectType.WF:
                     Views.GLFRedirectWF contentWF = new Views.GLFRedirectWF(FacebookProvider.Instance.FullyQualifiedLoginEndpoint(), FacebookProvider.Instance.RedirectURI, FacebookProvider.Instance.UsedFlow);
-                    contentWF.Dock = System.Windows.Forms.DockStyle.Top;
+                    contentWF.Dock = System.Windows.Forms.DockStyle.Fill;
                     window = new Window
                     {
                         Title = "Facebook Login",
