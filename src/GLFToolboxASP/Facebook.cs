@@ -6,9 +6,9 @@ using System.Security.Permissions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using GenericLoginFramework;
 
 [assembly: WebResource("GLFToolboxASP.images.facebook_bred.png", "img/png")]
-[assembly: WebResource("GLFToolboxASP.facebook_bred.png", "img/png")]
 [assembly: TagPrefix("GLFToolboxASP", "Facebook")]
 namespace GLFToolboxASP
 {
@@ -33,7 +33,7 @@ namespace GLFToolboxASP
 
         void imageButton_Click(object sender, ImageClickEventArgs e)
         {
-            HttpContext.Current.Response.Redirect("http://www.google.com");
+            HttpContext.Current.Response.Redirect(@GenericLoginFramework.Providers.FacebookProvider.Instance.FullyQualifiedLoginEndpoint());
         }
 
         protected override void RecreateChildControls()

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Security.Cryptography;
 using GenericLoginFramework.Providers;
 using System.Windows;
+using System.Data.Entity;
 
 namespace GenericLoginFramework
 {
@@ -34,6 +35,7 @@ namespace GenericLoginFramework
 		public bool DBInitialized { get; private set; }
         public string DBName { get; set; } = "GenericLoginFramework";
         public bool DBIsConnName { get; set; } = false;
+        public ProjectType TypeOfProject { get; set; }
 
         public static GLF Instance
         {
@@ -55,16 +57,22 @@ namespace GenericLoginFramework
 
         public User LoginWithGeneric(string username, string password)
         {
-            throw new NotImplementedException();
+            using (GLFDbContext db = new GLFDbContext(DBName, DBIsConnName))
+            {
+                User user = db.Users.Where(u => u.Username == username).Include(u => u.Resources).FirstOrDefault();
+                if (user != null && (BitConverter.ToString(user.Password) == BitConverter.ToString(Hash(password, user.ID.ToByteArray()))))
+                    return user;
+            }
+            return null;
         }
 
-		public async Task<User> LoginWithFacebook(ProjectType type)
+		public async Task<User> LoginWithFacebook()
 		{
             User ret = null;
             string response = "";
             Window window;
 
-            switch (type)
+            switch (TypeOfProject)
             {
                 case ProjectType.WPF:
                     Views.GLFRedirectWPF contentWPF = new Views.GLFRedirectWPF(FacebookProvider.Instance.FullyQualifiedLoginEndpoint(), FacebookProvider.Instance.UsedFlow);
@@ -93,28 +101,29 @@ namespace GenericLoginFramework
                     break;
             }
 
-            if (FacebookProvider.Instance.UsedFlow == ProviderFlow.AuthorizationCode || FacebookProvider.Instance.UsedFlow == ProviderFlow.Implicit)
+            if (FacebookProvider.Instance.UsedFlow == ProviderFlow.AuthorizationCode)
             {
-                if (FacebookProvider.Instance.UsedFlow == ProviderFlow.AuthorizationCode)
-                {
-                    response = await FacebookProvider.Instance.GetTokenFromGrant(response);
-                }
-
+                response = await FacebookProvider.Instance.GetTokenFromGrant(response);
+                Resource resource = await FacebookProvider.Instance.GetResourceFromToken(response);
+                ret = FacebookProvider.Instance.GetUserFromResource(resource);
+            }
+            else if (FacebookProvider.Instance.UsedFlow == ProviderFlow.Implicit)
+            {
                 Resource resource = await FacebookProvider.Instance.GetResourceFromToken(response);
                 ret = FacebookProvider.Instance.GetUserFromResource(resource);
             }
             else
-                throw new NotImplementedException();
-
+                throw new NotImplementedException(String.Format("Flow {0} not support.", FacebookProvider.Instance.UsedFlow.ToString()));
+            
             return ret;
         }
 
-		public async Task<User> LoginWithGoogle(ProjectType type)
+		public async Task<User> LoginWithGoogle()
         {
             User ret = null;
             string response = "";
 
-            switch (type)
+            switch (TypeOfProject)
             {
                 case ProjectType.WPF:
                     break;
@@ -143,20 +152,41 @@ namespace GenericLoginFramework
             return ret;
         }
 
-		public User LoginWithCustomProvider<T>(ProjectType type) where T : OAuthProvider
-		{
-            switch (type)
+		public User LoginWithCustomProvider<T>() where T : OAuthProvider
+        {
+            User ret = null;
+            string response = "";
+            Window window;
+
+           /* switch (TypeOfProject)
             {
                 case ProjectType.WPF:
+                    Views.GLFRedirectWPF contentWPF = new Views.GLFRedirectWPF(T.Instance().FullyQualifiedLoginEndpoint(), FacebookProvider.Instance.UsedFlow);
+                    window = new Window
+                    {
+                        Title = "Facebook Login",
+                        Content = contentWPF
+                    };
+                    window.ShowDialog();
+                    response = contentWPF.Response;
+                    Console.WriteLine(response);
                     break;
                 case ProjectType.WF:
+                    Views.GLFRedirectWF contentWF = new Views.GLFRedirectWF();
+                    contentWF.Dock = System.Windows.Forms.DockStyle.Top;
+                    window = new Window
+                    {
+                        Title = "Facebook Login",
+                        Content = contentWF
+                    };
+                    window.ShowDialog();
                     break;
                 case ProjectType.ASP:
                     break;
                 default:
                     break;
-            }
-            return null;
+            }*/
+            return ret;
         }
 
         public void InitializeDB(string name = "GenericLoginFramework", bool isConnName = false)
@@ -170,6 +200,18 @@ namespace GenericLoginFramework
                 {
                     DBInitialized = true;
                 }
+            }
+        }
+
+        public void AddResourceToExistingUser(User user, Resource resource)
+        {
+            //resource.User = user;
+            using (GLFDbContext db = new GLFDbContext(DBName, DBIsConnName))
+            {
+                User dbUser = db.Users.Where(u => u.ID == user.ID).FirstOrDefault();
+                resource.User = dbUser;
+                db.Resources.Add(resource);
+                db.SaveChanges();
             }
         }
 
@@ -196,19 +238,46 @@ namespace GenericLoginFramework
 			return result;
 		}
 
+        public static string UserToString(User user)
+        {
+            string ret = "";
+
+            ret += String.Format("ID: {0}\nVerified: {1}\nUsername: {2}\nPassword: {3}", user.ID.ToString(), user.Verified, user.Username, BitConverter.ToString(user.Password));
+
+            foreach (var resource in user.Resources)
+            {
+                ret += "\n-----Resource-----\n";
+                ret += String.Format("ID: {0}\nName: {1}\nLastname: {2}\nAge: {3}\nEmail: {4}\nType: {5}\n", resource.ID, resource.Name, resource.LastName, resource.Age, resource.Email, resource.Type);
+            }
+            
+            return ret;
+        }
+
         public static byte[] Hash(string value, string salt)
         {
-            return Hash(Encoding.UTF8.GetBytes(value), Encoding.UTF8.GetBytes(salt));
+            byte[] valuebytes = new byte[value.Length * sizeof(char)];
+            System.Buffer.BlockCopy(value.ToCharArray(), 0, valuebytes, 0, valuebytes.Length);
+
+            byte[] saltbytes = new byte[salt.Length * sizeof(char)];
+            System.Buffer.BlockCopy(salt.ToCharArray(), 0, saltbytes, 0, saltbytes.Length);
+
+            return Hash(valuebytes, saltbytes);
         }
 
         public static byte[] Hash(byte[] value, string salt)
         {
-            return Hash(value, Encoding.UTF8.GetBytes(salt));
+            byte[] saltbytes = new byte[salt.Length * sizeof(char)];
+            System.Buffer.BlockCopy(salt.ToCharArray(), 0, saltbytes, 0, saltbytes.Length);
+
+            return Hash(value, saltbytes);
         }
 
         public static byte[] Hash(string value, byte[] salt)
         {
-            return Hash(Encoding.UTF8.GetBytes(value), salt);
+            byte[] valuebytes = new byte[value.Length * sizeof(char)];
+            System.Buffer.BlockCopy(value.ToCharArray(), 0, valuebytes, 0, valuebytes.Length);
+
+            return Hash(valuebytes, salt);
         }
 
         public static byte[] Hash(byte[] value, byte[] salt)

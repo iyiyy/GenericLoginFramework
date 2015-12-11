@@ -6,6 +6,7 @@ using System.Security.Permissions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using GenericLoginFramework;
 
 [assembly: WebResource("GLFToolboxASP.images.google_bred.png", "img/png")]
 [assembly: TagPrefix("GLFToolboxASP", "Google")]
@@ -26,13 +27,13 @@ namespace GLFToolboxASP
             imageButton.Click += new ImageClickEventHandler(imageButton_Click);
             imageButton.ImageUrl = Page.ClientScript.GetWebResourceUrl(this.GetType(), "GLFToolboxASP.images.google_bred.png");
 
-            //Add child controls to CustomCalendar control
+            //Add child controls to Custom control
             this.Controls.Add(imageButton);
         }
 
         void imageButton_Click(object sender, ImageClickEventArgs e)
         {
-            HttpContext.Current.Response.Redirect("http://www.google.com");
+            HttpContext.Current.Response.Redirect(@GenericLoginFramework.Providers.GoogleProvider.Instance.FullyQualifiedLoginEndpoint());
         }
 
         protected override void RecreateChildControls()

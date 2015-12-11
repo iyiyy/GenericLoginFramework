@@ -15,6 +15,7 @@ namespace GenericLoginFramework.Providers
         public override string LoginEndpoint { get; set; } = "https://www.facebook.com/dialog/oauth";
         public override string ResourceEndpoint { get; set; } = "https://graph.facebook.com/me";
         public override string Scope { get; set; } = "email";
+
         public static FacebookProvider Instance
         {
             get
@@ -47,7 +48,7 @@ namespace GenericLoginFramework.Providers
 
             using (var client = new HttpClient())
             {
-                resource = await client.GetStringAsync(String.Format("{0}?access_token={1}&fields=id,first_name,last_name,link,gender,locale,timezone,updated_time,verified", ResourceEndpoint, token));
+                resource = await client.GetStringAsync(String.Format("{0}?access_token={1}&fields=id,first_name,last_name,email", ResourceEndpoint, token));
             }
 
             return ConvertJSONToResource(resource);
@@ -62,6 +63,7 @@ namespace GenericLoginFramework.Providers
                 ID = JSON["id"],
                 Name = JSON["first_name"],
                 LastName = JSON["last_name"],
+                Email = JSON["email"],
                 Type = "Facebook"
             };
         }

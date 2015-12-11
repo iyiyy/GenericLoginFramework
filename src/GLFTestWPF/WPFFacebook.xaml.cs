@@ -29,13 +29,13 @@ namespace GLFTestWPF
         {
             User user;
 
-            GenericLoginFramework.Providers.FacebookProvider.Instance.UsedFlow = GLF.ProviderFlow.AuthorizationCode;
-            user = await GLF.Instance.LoginWithFacebook(GLF.ProjectType.WPF);
+           /* GenericLoginFramework.Providers.FacebookProvider.Instance.UsedFlow = GLF.ProviderFlow.AuthorizationCode;
+            user = await GLF.Instance.LoginWithFacebook();
             txtbx_user_result.Text = user.ToString();
-
-            GenericLoginFramework.Providers.FacebookProvider.Instance.UsedFlow = GLF.ProviderFlow.Implicit;
-            user = await GLF.Instance.LoginWithFacebook(GLF.ProjectType.WPF);
-            txtbx_user_result.Text = user.ToString();
+            */
+            //GenericLoginFramework.Providers.FacebookProvider.Instance.UsedFlow = GLF.ProviderFlow.Implicit;
+            user = await GLF.Instance.LoginWithFacebook();
+            txtbx_user_result.Text = GLF.UserToString(user);
         }
     }
 }

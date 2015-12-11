@@ -27,11 +27,10 @@ namespace GenericLoginFramework.Views
         {
             InitializeComponent();
 
-            this.browser.Navigated += new NavigatedEventHandler(delegate (object sender, NavigationEventArgs e)
+            browser.Navigated += new NavigatedEventHandler(delegate (object sender, NavigationEventArgs e)
             {
                 if ((e.Uri.Scheme + "://" + e.Uri.Host + e.Uri.AbsolutePath).Contains(FacebookProvider.Instance.RedirectURI))
                 {
-                    Console.WriteLine(e.Uri.AbsoluteUri);
                     string[] queryParams;
 
                     if (flow == GLF.ProviderFlow.AuthorizationCode)
@@ -39,15 +38,14 @@ namespace GenericLoginFramework.Views
                     else if (flow == GLF.ProviderFlow.Implicit)
                         queryParams = e.Uri.AbsoluteUri.Split('#')[1].Split('&');
                     else
-                        throw new NotImplementedException("A unimplemented flow was being used.");
+                        throw new NotImplementedException(String.Format("Flow {0} not support.", flow.ToString()));
 
                     foreach (string s in queryParams)
                     {
-                        Console.WriteLine(s);
                         string[] queryParameter = s.Split('=');
                         if (queryParameter[0].ToLower() == "code" || queryParameter[0].ToLower() == "access_token")
                         {
-                            this.Response = queryParameter[1];
+                            Response = queryParameter[1];
                             break;
                         }
                     }
@@ -58,7 +56,7 @@ namespace GenericLoginFramework.Views
                 }
             });
 
-            this.browser.Navigate(new Uri(@URI));
+            browser.Navigate(new Uri(@URI));
         }
     }
 }

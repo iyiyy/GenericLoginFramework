@@ -17,7 +17,7 @@ namespace GLFToolboxWF
 
         private void LoginBtn_Click(object sender, EventArgs e)
         {
-            //User = GLF.LoginWithGeneric(UsernameTxtBx.Text, PasswordTxtBx.Text);
+            User = GLF.Instance.LoginWithGeneric(UsernameTxtBx.Text, PasswordTxtBx.Text);
         }
     }
 }
