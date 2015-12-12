@@ -155,8 +155,8 @@ namespace GenericLoginFramework
 		public User LoginWithCustomProvider<T>() where T : OAuthProvider
         {
             User ret = null;
-            string response = "";
-            Window window;
+            //string response = "";
+            //Window window;
 
             /* switch (TypeOfProject)
              {
@@ -203,15 +203,29 @@ namespace GenericLoginFramework
             }
         }
 
+        public void AddUserToContext(User user)
+        {
+            if (user != null)
+            {
+                using (GLFDbContext db = new GLFDbContext(DBName, DBIsConnName))
+                {
+                    db.Users.Add(user);
+                    db.SaveChanges();
+                }
+            }
+        }
+
         public void AddResourceToExistingUser(User user, Resource resource)
         {
-            //resource.User = user;
-            using (GLFDbContext db = new GLFDbContext(DBName, DBIsConnName))
+            if (user != null && resource != null)
             {
-                User dbUser = db.Users.Where(u => u.ID == user.ID).FirstOrDefault();
-                resource.User = dbUser;
-                db.Resources.Add(resource);
-                db.SaveChanges();
+                using (GLFDbContext db = new GLFDbContext(DBName, DBIsConnName))
+                {
+                    User dbUser = db.Users.Where(u => u.ID == user.ID).FirstOrDefault();
+                    resource.User = dbUser;
+                    db.Resources.Add(resource);
+                    db.SaveChanges();
+                }
             }
         }
 
