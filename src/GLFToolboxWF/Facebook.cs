@@ -19,7 +19,7 @@ namespace GLFToolboxWF
         private void FacebookBtn_Click(object sender, EventArgs e)
         {
             Token = GLF.Instance.GetFacebookToken();
-            
+            this.OnClick(e);            
         }
     }
 }

@@ -386,12 +386,12 @@ namespace GenericLoginFramework
                 return "Empty user.";
             string ret = "";
 
-            ret += String.Format("ID: {0}\nVerified: {1}\nUsername: {2}\nPassword: {3}", user.ID.ToString(), user.Verified, user.Username, (user.Password != null ? BitConverter.ToString(user.Password) : ""));
+            ret += String.Format("ID: {0}\r\nVerified: {1}\r\nUsername: {2}\r\nPassword: {3}", user.ID.ToString(), user.Verified, user.Username, (user.Password != null ? BitConverter.ToString(user.Password) : ""));
 
             foreach (var resource in user.Resources)
             {
-                ret += "\n-----Resource-----\n";
-                ret += String.Format("ID: {0}\nName: {1}\nLastname: {2}\nAge: {3}\nEmail: {4}\nType: {5}\n", resource.ID, resource.Name, resource.LastName, resource.Age, resource.Email, resource.Type);
+                ret += "\r\n-----Resource-----\r\n";
+                ret += String.Format("ID: {0}\r\nName: {1}\r\nLastname: {2}\r\nAge: {3}\r\nEmail: {4}\r\nType: {5}\r\n", resource.ID, resource.Name, resource.LastName, resource.Age, resource.Email, resource.Type);
             }
             
             return ret;

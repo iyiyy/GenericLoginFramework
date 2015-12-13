@@ -20,6 +20,7 @@ namespace GLFToolboxWF
         {
             Username = UsernameTxtBx.Text;
             Password = PasswordTxtBx.Text;
+            this.OnClick(e);
         }
     }
 }

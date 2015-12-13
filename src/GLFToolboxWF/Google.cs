@@ -18,6 +18,7 @@ namespace GLFToolboxWF
         private void GoogleBtn_Click(object sender, EventArgs e)
         {
             Token = GLF.Instance.GetGoogleToken();
+            this.OnClick(e);
         }
     }
 }
