@@ -31,6 +31,7 @@
             this.btn_facebook = new System.Windows.Forms.Button();
             this.btn_google = new System.Windows.Forms.Button();
             this.btn_generic = new System.Windows.Forms.Button();
+            this.btn_toolbox = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btn_facebook
@@ -63,11 +64,22 @@
             this.btn_generic.UseVisualStyleBackColor = true;
             this.btn_generic.Click += new System.EventHandler(this.btn_generic_Click);
             // 
+            // btn_toolbox
+            // 
+            this.btn_toolbox.Location = new System.Drawing.Point(84, 149);
+            this.btn_toolbox.Name = "btn_toolbox";
+            this.btn_toolbox.Size = new System.Drawing.Size(75, 23);
+            this.btn_toolbox.TabIndex = 3;
+            this.btn_toolbox.Text = "Toolbox";
+            this.btn_toolbox.UseVisualStyleBackColor = true;
+            this.btn_toolbox.Click += new System.EventHandler(this.btn_toolbox_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(234, 144);
+            this.ClientSize = new System.Drawing.Size(234, 184);
+            this.Controls.Add(this.btn_toolbox);
             this.Controls.Add(this.btn_generic);
             this.Controls.Add(this.btn_google);
             this.Controls.Add(this.btn_facebook);
@@ -82,6 +94,7 @@
         private System.Windows.Forms.Button btn_facebook;
         private System.Windows.Forms.Button btn_google;
         private System.Windows.Forms.Button btn_generic;
+        private System.Windows.Forms.Button btn_toolbox;
     }
 }
 

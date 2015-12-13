@@ -14,6 +14,7 @@ namespace GenericLoginFramework.Views
     public partial class GLFRedirectWF : UserControl
     {
         public string Response { get; set; }
+        public Window ParentWindow { get; set; }
 
         public GLFRedirectWF(string URI, string redirectURI, GLF.ProviderFlow flow)
         {
@@ -41,10 +42,8 @@ namespace GenericLoginFramework.Views
                             break;
                         }
                     }
-
-                    Form parent = this.Parent as Form;
-                    parent.DialogResult = DialogResult.OK;
-                    parent.Close();
+              
+                    ParentWindow.Close();
                 }
             });
 

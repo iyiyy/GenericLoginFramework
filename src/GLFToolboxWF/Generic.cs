@@ -8,7 +8,8 @@ namespace GLFToolboxWF
     [ProvideToolboxControl("GLFToolboxWF.Generic", false)]
     public partial class Generic : UserControl
     {
-        public User User { private set; get; }
+        public string Username { get; private set; }
+        public string Password { get; private set; }
 
         public Generic()
         {
@@ -17,7 +18,8 @@ namespace GLFToolboxWF
 
         private void LoginBtn_Click(object sender, EventArgs e)
         {
-            User = GLF.Instance.LoginWithGeneric(UsernameTxtBx.Text, PasswordTxtBx.Text);
+            Username = UsernameTxtBx.Text;
+            Password = PasswordTxtBx.Text;
         }
     }
 }

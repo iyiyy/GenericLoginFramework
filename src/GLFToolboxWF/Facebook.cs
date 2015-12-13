@@ -2,22 +2,24 @@
 using System;
 using System.Windows.Forms;
 using GenericLoginFramework;
+using System.ComponentModel;
 
 namespace GLFToolboxWF
 {
     [ProvideToolboxControl("GLFToolboxWF.Facebook", false)]
     public partial class Facebook : UserControl
     {
-        public User User { private set; get; }
+        public string Token { get; set; }
 
         public Facebook()
         {
             InitializeComponent();
         }
 
-        private async void FacebookBtn_Click(object sender, EventArgs e)
+        private void FacebookBtn_Click(object sender, EventArgs e)
         {
-            User = await GLF.Instance.LoginWithFacebook();
+            Token = GLF.Instance.GetFacebookToken();
+            
         }
     }
 }

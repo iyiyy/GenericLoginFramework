@@ -20,8 +20,10 @@ namespace GLFTestWF
 
         private async void loginBtn_Click(object sender, EventArgs e)
         {
+            string token;
             User user;
-            user = await GLF.Instance.LoginWithFacebook();
+            token = GLF.Instance.GetFacebookToken();
+            user = await GLF.Instance.GetUserFromFacebookToken(token);
             resultTxtbx.Text = GLF.UserToString(user);
         }
     }
