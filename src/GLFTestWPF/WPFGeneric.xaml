@@ -5,8 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GLFTestWPF"
         mc:Ignorable="d"
-        Title="WPF Generic" Height="300" Width="300">
+        Title="WPF Generic" Height="460" Width="300">
     <Grid>
-        
+        <PasswordBox x:Name="box_pwd" HorizontalAlignment="Left" Margin="10,90,0,0" VerticalAlignment="Top" Width="272"/>
+        <Label x:Name="label" Content="Username" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="box_uname" HorizontalAlignment="Left" Height="23" Margin="10,36,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="272"/>
+        <Label x:Name="label1" Content="Password" HorizontalAlignment="Left" Margin="10,64,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="button" Content="Login" HorizontalAlignment="Left" Margin="207,115,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.908,-4.14" Click="button_Click"/>
+        <TextBox x:Name="box_result" HorizontalAlignment="Left" Height="278" Margin="10,142,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="272"/>
+
     </Grid>
 </Window>

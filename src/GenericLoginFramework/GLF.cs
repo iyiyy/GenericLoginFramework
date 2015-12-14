@@ -139,6 +139,7 @@ namespace GenericLoginFramework
             switch (TypeOfProject)
             {
                 case ProjectType.WPF:
+                    Console.WriteLine(GoogleProvider.Instance.FullyQualifiedLoginEndpoint());
                     Views.GLFRedirectWPF contentWPF = new Views.GLFRedirectWPF(GoogleProvider.Instance.FullyQualifiedLoginEndpoint(), GoogleProvider.Instance.RedirectURI, GoogleProvider.Instance.UsedFlow);
                     window = new Window
                     {

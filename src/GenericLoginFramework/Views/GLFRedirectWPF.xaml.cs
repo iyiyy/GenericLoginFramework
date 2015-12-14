@@ -29,6 +29,7 @@ namespace GenericLoginFramework.Views
 
             browser.Navigated += new NavigatedEventHandler(delegate (object sender, NavigationEventArgs e)
             {
+                Console.WriteLine(e.Uri.AbsoluteUri);
                 if((e.Uri.Scheme + "://" + e.Uri.Host + e.Uri.AbsolutePath).Contains(redirectURI))
                 {
                     string[] queryParams;
@@ -49,6 +50,19 @@ namespace GenericLoginFramework.Views
                             break;
                         }
                     }
+
+
+                    Window parent = Window.GetWindow(this);
+                    parent.DialogResult = true;
+                    parent.Close();
+                }
+                else if(e.Uri.AbsoluteUri.Contains("approval"))
+                {
+                    Console.WriteLine("Approved");
+                    string code = ((dynamic)browser.Document).Title;
+
+                    string[] queryParameter = code.Split('=');
+                    Response = queryParameter[1];
 
                     Window parent = Window.GetWindow(this);
                     parent.DialogResult = true;

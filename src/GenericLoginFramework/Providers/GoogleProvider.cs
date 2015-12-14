@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -10,9 +11,25 @@ namespace GenericLoginFramework.Providers
     public class GoogleProvider : OpenIDProvider
     {
         private static GoogleProvider _instance;
-        public override string RedirectURI { get; set; } = "https://www.facebook.com/connect/login_success.html";
-        public override string LoginEndpoint { get; set; } = "www.googleapis.com/oauth2/v4/token";
-        public override string ResourceEndpoint { get; set; } = "https://graph.facebook.com/me";
+        private string _redirectURI = "https://www.facebook.com/connect/login_success.html";
+        public override string RedirectURI
+        {
+            get
+            {
+                if (UsedFlow == GLF.ProviderFlow.AuthorizationCode)
+                    return "urn:ietf:wg:oauth:2.0:oob:auto";
+                else if (UsedFlow == GLF.ProviderFlow.Implicit)
+                    return _redirectURI;
+                else
+                    throw new NotImplementedException();
+            }
+            set
+            {
+                _redirectURI = value;
+            }
+        } //= //("urn:ietf:wg:oauth:2.0:oob:auto";
+        public override string LoginEndpoint { get; set; } = "https://accounts.google.com/o/oauth2/v2/auth";
+        public override string ResourceEndpoint { get; set; } = "https://www.googleapis.com/userinfo/v2/me";//"https://www.googleapis.com/oauth2/v2/userinfo";
         public override string Scope { get; set; } = "email%20profile";
 
         public static GoogleProvider Instance
@@ -45,23 +62,42 @@ namespace GenericLoginFramework.Providers
 
                 var content = new FormUrlEncodedContent(postvalues);
 
-                var response = await client.PostAsync("http://www.example.com/recepticle.aspx", content);
+                var response = await client.PostAsync("https://www.googleapis.com/oauth2/v4/token", content);
 
                 var responseString = await response.Content.ReadAsStringAsync();
+                Dictionary<string, string> responseJSON = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseString);
+                token = responseJSON["access_token"];
+
                 Console.WriteLine(responseString);
             }
 
             return token;
         }
 
-        public override Task<Resource> GetResourceFromToken(string token)
+        public async override Task<Resource> GetResourceFromToken(string token)
         {
-            throw new NotImplementedException();
+            string resource = "";
+
+            using (var client = new HttpClient())
+            {
+                resource = await client.GetStringAsync(String.Format("{0}?access_token={1}", ResourceEndpoint, token));
+            }
+
+            return ConvertJSONToResource(resource);
         }
 
         protected override Resource ConvertJSONToResource(string JSONString)
         {
-            throw new NotImplementedException();
+            Dictionary<string, string> JSON = JsonConvert.DeserializeObject<Dictionary<string, string>>(JSONString);
+
+            return new Resource
+            {
+                ID = JSON["id"],
+                Name = JSON["given_name"],
+                LastName = JSON["family_name"],
+                Email = JSON["email"],
+                Type = "Google"
+            };
         }
     }
 }
