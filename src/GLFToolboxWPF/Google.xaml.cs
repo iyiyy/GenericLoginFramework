@@ -11,15 +11,18 @@ namespace GLFToolboxWPF
     [ProvideToolboxControl("Generic Login Framework", true)]
     public partial class Google : UserControl
     {
-        public User User { private set; get; }
+        public string Token { private set; get; }
+        public event RoutedEventHandler Click;
         public Google()
         {
             InitializeComponent();
         }
 
-        private async void GoogleBtn_Click(object sender, RoutedEventArgs e)
+        private void GoogleBtn_Click(object sender, RoutedEventArgs e)
         {
-            User = await GLF.Instance.LoginWithGoogle();
+            Token = GLF.Instance.GetGoogleToken();
+            if (this.Click != null)
+                this.Click(sender, e);
         }
     }
 }

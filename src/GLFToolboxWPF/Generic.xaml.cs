@@ -11,7 +11,9 @@ namespace GLFToolboxWPF
     [ProvideToolboxControl("Generic Login Framework", true)]
     public partial class Generic : UserControl
     {
-        public User User { private set; get; }
+        public string Username { get; private set; }
+        public string Password { get; private set; }
+        public event RoutedEventHandler Click;
 
         public Generic()
         {
@@ -20,7 +22,10 @@ namespace GLFToolboxWPF
 
         private void loginBtn_Click(object sender, RoutedEventArgs e)
         {
-            User = GLF.Instance.LoginWithGeneric(usernameBox.Text, passwordBox.Password);
+            Username = usernameBox.Text;
+            Password = passwordBox.Password;
+            if (this.Click != null)
+                this.Click(sender, e);
         }
     }
 }

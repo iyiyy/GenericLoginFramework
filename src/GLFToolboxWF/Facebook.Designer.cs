@@ -53,8 +53,9 @@ namespace GLFToolboxWF
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.FacebookBtn);
             this.Name = "Facebook";
-            this.Size = new System.Drawing.Size(200, 36);
+            this.Size = new System.Drawing.Size(201, 39);
             this.ResumeLayout(false);
+
         }
 
         #endregion

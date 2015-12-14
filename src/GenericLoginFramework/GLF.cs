@@ -66,8 +66,136 @@ namespace GenericLoginFramework
             return null;
         }
 
-		public async Task<User> LoginWithFacebook()
+        public string GetFacebookToken()
+        {
+            if (!FacebookProvider.Instance.Enabled)
+                throw new Exception("Facebook provider is not enable.");
+
+            string response = "";
+            Window window;
+
+            switch (TypeOfProject)
+            {
+                case ProjectType.WPF:
+                    Views.GLFRedirectWPF contentWPF = new Views.GLFRedirectWPF(FacebookProvider.Instance.FullyQualifiedLoginEndpoint(), FacebookProvider.Instance.RedirectURI, FacebookProvider.Instance.UsedFlow);
+                    window = new Window
+                    {
+                        Title = "Facebook Login",
+                        Content = contentWPF
+                    };
+                    window.ShowDialog();
+                    response = contentWPF.Response;
+                    break;
+                case ProjectType.WF:
+                    Views.GLFRedirectWF contentWF = new Views.GLFRedirectWF(FacebookProvider.Instance.FullyQualifiedLoginEndpoint(), FacebookProvider.Instance.RedirectURI, FacebookProvider.Instance.UsedFlow);
+                    contentWF.Dock = System.Windows.Forms.DockStyle.Fill;
+                    window = new Window
+                    {
+                        Title = "Facebook Login",
+                        Content = contentWF
+                    };
+                    contentWF.ParentWindow = window;
+                    window.ShowDialog();
+                    response = contentWF.Response;
+                    break;
+                case ProjectType.ASP:
+                    break;
+                default:
+                    break;
+            }
+
+            return response;
+        }
+
+        public async Task<User> GetUserFromFacebookToken(string token)
+        {
+            User user = null;
+
+            if (FacebookProvider.Instance.UsedFlow == ProviderFlow.AuthorizationCode)
+            {
+                token = await FacebookProvider.Instance.GetTokenFromGrant(token);
+                Resource resource = await FacebookProvider.Instance.GetResourceFromToken(token);
+                user = FacebookProvider.Instance.GetUserFromResource(resource);
+            }
+            else if (FacebookProvider.Instance.UsedFlow == ProviderFlow.Implicit)
+            {
+                Resource resource = await FacebookProvider.Instance.GetResourceFromToken(token);
+                user = FacebookProvider.Instance.GetUserFromResource(resource);
+            }
+            else
+                throw new NotImplementedException(String.Format("Flow {0} not support.", FacebookProvider.Instance.UsedFlow.ToString()));
+
+            return user;
+        }
+
+        public string GetGoogleToken()
+        {
+            if (!GoogleProvider.Instance.Enabled)
+                throw new Exception("Google provider is not enable.");
+
+            string response = "";
+            Window window;
+
+            switch (TypeOfProject)
+            {
+                case ProjectType.WPF:
+                    Console.WriteLine(GoogleProvider.Instance.FullyQualifiedLoginEndpoint());
+                    Views.GLFRedirectWPF contentWPF = new Views.GLFRedirectWPF(GoogleProvider.Instance.FullyQualifiedLoginEndpoint(), GoogleProvider.Instance.RedirectURI, GoogleProvider.Instance.UsedFlow);
+                    window = new Window
+                    {
+                        Title = "Google Login",
+                        Content = contentWPF
+                    };
+                    window.ShowDialog();
+                    response = contentWPF.Response;
+                    break;
+                case ProjectType.WF:
+                    Views.GLFRedirectWF contentWF = new Views.GLFRedirectWF(GoogleProvider.Instance.FullyQualifiedLoginEndpoint(), GoogleProvider.Instance.RedirectURI, GoogleProvider.Instance.UsedFlow);
+                    contentWF.Dock = System.Windows.Forms.DockStyle.Fill;
+                    window = new Window
+                    {
+                        Title = "Google Login",
+                        Content = contentWF
+                    };
+                    contentWF.ParentWindow = window;
+                    window.ShowDialog();
+                    response = contentWF.Response;
+                    break;
+                case ProjectType.ASP:
+                    break;
+                default:
+                    break;
+            }
+
+            return response;
+        }
+
+        public async Task<User> GetUserFromGoogleToken(string token)
+        {
+            User user = null;
+
+            if (GoogleProvider.Instance.UsedFlow == ProviderFlow.AuthorizationCode)
+            {
+                token = await GoogleProvider.Instance.GetTokenFromGrant(token);
+                Resource resource = await GoogleProvider.Instance.GetResourceFromToken(token);
+                user = GoogleProvider.Instance.GetUserFromResource(resource);
+            }
+            else if (GoogleProvider.Instance.UsedFlow == ProviderFlow.Implicit)
+            {
+                Resource resource = await GoogleProvider.Instance.GetResourceFromToken(token);
+                user = GoogleProvider.Instance.GetUserFromResource(resource);
+            }
+            else
+                throw new NotImplementedException(String.Format("Flow {0} not support.", GoogleProvider.Instance.UsedFlow.ToString()));
+
+            return user;
+        }
+
+        /*public async Task<User> LoginWithFacebook()
 		{
+            if (!FacebookProvider.Instance.Enabled)
+                throw new Exception("Facebook provider is not enable.");
+
             User ret = null;
             string response = "";
             Window window;
@@ -94,6 +222,7 @@ namespace GenericLoginFramework
                         Content = contentWF
                     };
                     window.ShowDialog();
+                    response = contentWF.Response;
                     break;
                 case ProjectType.ASP:
                     break;
@@ -185,9 +314,9 @@ namespace GenericLoginFramework
                      break;
                  default:
                      break;
-             }*/
+             }
             return ret;
-        }
+        }*/
 
         public void InitializeDB(string name = "GenericLoginFramework", bool isConnName = false)
         {
@@ -254,14 +383,16 @@ namespace GenericLoginFramework
 
         public static string UserToString(User user)
         {
+            if(user == null)
+                return "Empty user.";
             string ret = "";
 
-            ret += String.Format("ID: {0}\nVerified: {1}\nUsername: {2}\nPassword: {3}", user.ID.ToString(), user.Verified, user.Username, BitConverter.ToString(user.Password));
+            ret += String.Format("ID: {0}\r\nVerified: {1}\r\nUsername: {2}\r\nPassword: {3}", user.ID.ToString(), user.Verified, user.Username, (user.Password != null ? BitConverter.ToString(user.Password) : ""));
 
             foreach (var resource in user.Resources)
             {
-                ret += "\n-----Resource-----\n";
-                ret += String.Format("ID: {0}\nName: {1}\nLastname: {2}\nAge: {3}\nEmail: {4}\nType: {5}\n", resource.ID, resource.Name, resource.LastName, resource.Age, resource.Email, resource.Type);
+                ret += "\r\n-----Resource-----\r\n";
+                ret += String.Format("ID: {0}\r\nName: {1}\r\nLastname: {2}\r\nAge: {3}\r\nEmail: {4}\r\nType: {5}\r\n", resource.ID, resource.Name, resource.LastName, resource.Age, resource.Email, resource.Type);
             }
             
             return ret;
