@@ -65,6 +65,7 @@
             this.tlbx_generic.Name = "tlbx_generic";
             this.tlbx_generic.Size = new System.Drawing.Size(206, 112);
             this.tlbx_generic.TabIndex = 6;
+            this.tlbx_generic.Click += new System.EventHandler(this.tlbx_generic_Click);
             // 
             // WFToolbox
             // 

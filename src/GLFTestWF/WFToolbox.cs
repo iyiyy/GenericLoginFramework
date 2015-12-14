@@ -30,5 +30,11 @@ namespace GLFTestWF
             User user = await GLF.Instance.GetUserFromGoogleToken(tlbx_google.Token);
             txtbx_user.Text = GLF.UserToString(user);
         }
+
+        private void tlbx_generic_Click(object sender, EventArgs e)
+        {
+            User user = GLF.Instance.LoginWithGeneric(tlbx_generic.Username, tlbx_generic.Password);
+            txtbx_user.Text = GLF.UserToString(user);
+        }
     }
 }

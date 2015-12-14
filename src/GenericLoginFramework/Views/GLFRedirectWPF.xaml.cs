@@ -58,7 +58,6 @@ namespace GenericLoginFramework.Views
                 }
                 else if(e.Uri.AbsoluteUri.Contains("approval"))
                 {
-                    Console.WriteLine("Approved");
                     string code = ((dynamic)browser.Document).Title;
 
                     string[] queryParameter = code.Split('=');
