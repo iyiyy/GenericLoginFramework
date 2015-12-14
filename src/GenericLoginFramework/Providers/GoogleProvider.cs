@@ -67,8 +67,6 @@ namespace GenericLoginFramework.Providers
                 var responseString = await response.Content.ReadAsStringAsync();
                 Dictionary<string, string> responseJSON = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseString);
                 token = responseJSON["access_token"];
-
-                Console.WriteLine(responseString);
             }
 
             return token;
