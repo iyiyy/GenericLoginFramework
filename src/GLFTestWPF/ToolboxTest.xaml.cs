@@ -24,9 +24,24 @@ namespace GLFTestWPF
         {
             InitializeComponent();
 
-            btn_facebook.Click += (sender, e) =>
+            btn_facebook.Click += async (sender, e) =>
             {
-                txtbx_output.Text = GLF.UserToString(btn_facebook.User);
+                string token = btn_facebook.Token;
+                User user = await GLF.Instance.GetUserFromFacebookToken(token);
+                txtbx_output.Text = GLF.UserToString(user);
+            };
+
+            btn_google.Click += async (sender, e) =>
+            {
+                string token = btn_google.Token;
+                User user = await GLF.Instance.GetUserFromGoogleToken(token);
+                txtbx_output.Text = GLF.UserToString(user);
+            };
+
+            btn_generic.Click += (sender, e) =>
+            {
+                User user = GLF.Instance.LoginWithGeneric(btn_generic.Username, btn_generic.Password);
+                txtbx_output.Text = GLF.UserToString(user);
             };
         }
     }

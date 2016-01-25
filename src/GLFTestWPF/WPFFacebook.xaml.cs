@@ -27,14 +27,11 @@ namespace GLFTestWPF
 
         private async void btn_facebook_login_Click(object sender, RoutedEventArgs e)
         {
+            string token;
             User user;
 
-           /* GenericLoginFramework.Providers.FacebookProvider.Instance.UsedFlow = GLF.ProviderFlow.AuthorizationCode;
-            user = await GLF.Instance.LoginWithFacebook();
-            txtbx_user_result.Text = user.ToString();
-            */
-            //GenericLoginFramework.Providers.FacebookProvider.Instance.UsedFlow = GLF.ProviderFlow.Implicit;
-            user = await GLF.Instance.LoginWithFacebook();
+            token = GLF.Instance.GetFacebookToken();
+            user = await GLF.Instance.GetUserFromFacebookToken(token);
             txtbx_user_result.Text = GLF.UserToString(user);
         }
     }

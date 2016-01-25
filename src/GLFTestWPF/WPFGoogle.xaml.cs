@@ -24,5 +24,15 @@ namespace GLFTestWPF
         {
             InitializeComponent();
         }
+
+        private async void btn_google_login_Click(object sender, RoutedEventArgs e)
+        {
+            string token;
+            User user;
+
+            token = GLF.Instance.GetGoogleToken();
+            user = await GLF.Instance.GetUserFromGoogleToken(token);
+            txtbx_user_result.Text = GLF.UserToString(user);
+        }
     }
 }

@@ -24,5 +24,11 @@ namespace GLFTestWPF
         {
             InitializeComponent();
         }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            User user = GLF.Instance.LoginWithGeneric(box_uname.Text, box_pwd.Password);
+            box_result.Text = GLF.UserToString(user);
+        }
     }
 }

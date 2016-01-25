@@ -11,16 +11,16 @@ namespace GLFToolboxWPF
     [ProvideToolboxControl("Generic Login Framework", true)]
     public partial class Facebook : UserControl
     {
-        public User User { private set; get; }
+        public string Token { private set; get; }
         public event RoutedEventHandler Click;
         public Facebook()
         {
             InitializeComponent();
         }
 
-        private async void FacebookBtn_Click(object sender, RoutedEventArgs e)
+        private void FacebookBtn_Click(object sender, RoutedEventArgs e)
         {
-            User = await GLF.Instance.LoginWithFacebook();
+            Token = GLF.Instance.GetFacebookToken();
             if (this.Click != null)
                 this.Click(sender, e);
         }

@@ -8,15 +8,17 @@ namespace GLFToolboxWF
     [ProvideToolboxControl("GLFToolboxWF.Google", false)]
     public partial class Google : UserControl
     {
-        public User User { private set; get; }
+        public string Token { private set; get; }
+
         public Google()
         {
             InitializeComponent();
         }
 
-        private async void GoogleBtn_Click(object sender, EventArgs e)
+        private void GoogleBtn_Click(object sender, EventArgs e)
         {
-            User = await GLF.Instance.LoginWithGoogle();
+            Token = GLF.Instance.GetGoogleToken();
+            this.OnClick(e);
         }
     }
 }

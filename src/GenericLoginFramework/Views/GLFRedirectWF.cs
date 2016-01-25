@@ -14,6 +14,7 @@ namespace GenericLoginFramework.Views
     public partial class GLFRedirectWF : UserControl
     {
         public string Response { get; set; }
+        public Window ParentWindow { get; set; }
 
         public GLFRedirectWF(string URI, string redirectURI, GLF.ProviderFlow flow)
         {
@@ -21,7 +22,8 @@ namespace GenericLoginFramework.Views
 
             browser.Navigated += new WebBrowserNavigatedEventHandler(delegate (object sender, WebBrowserNavigatedEventArgs e)
             {
-                if((e.Url.Scheme + "://" + e.Url.Host + e.Url.AbsolutePath).Contains(redirectURI))
+                Console.WriteLine(e.Url.AbsoluteUri);
+                if ((e.Url.Scheme + "://" + e.Url.Host + e.Url.AbsolutePath).Contains(redirectURI))
                 {
                     string[] queryParams;
 
@@ -41,10 +43,17 @@ namespace GenericLoginFramework.Views
                             break;
                         }
                     }
+              
+                    ParentWindow.Close();
+                }
+                else if(e.Url.AbsoluteUri.Contains("approval"))
+                {
+                    string code = ((dynamic)browser.Document).Title;
 
-                    Form parent = this.Parent as Form;
-                    parent.DialogResult = DialogResult.OK;
-                    parent.Close();
+                    string[] queryParameter = code.Split('=');
+                    Response = queryParameter[1];
+
+                    ParentWindow.Close();
                 }
             });
 

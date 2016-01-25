@@ -28,6 +28,9 @@ namespace GLFTestWPF
             GLF.Instance.TypeOfProject = GLF.ProjectType.WPF;
             GenericLoginFramework.Providers.FacebookProvider.Instance.Enable("624408054367639");
             //GenericLoginFramework.Providers.FacebookProvider.Instance.Enable("624408054367639", "3ee73a2a0c243edff171618669a7b1a3");
+            //GenericLoginFramework.Providers.GoogleProvider.Instance.Enable("289500172429-rc7irdepa8cg13lhfho68jggeeqr7b4h.apps.googleusercontent.com");
+            GenericLoginFramework.Providers.GoogleProvider.Instance.Enable("289500172429-qhhju3dpuo51k9k8159vuhdrk37iat5q.apps.googleusercontent.com", "doui3KnxTypOH4l4HEMHOv2s");
+
         }
 
         private void btn_facebook_Click(object sender, RoutedEventArgs e)

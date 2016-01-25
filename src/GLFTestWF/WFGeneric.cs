@@ -17,5 +17,11 @@ namespace GLFTestWF
         {
             InitializeComponent();
         }
+
+        private void btn_login_Click(object sender, EventArgs e)
+        {
+            User user = GLF.Instance.LoginWithGeneric(box_uname.Text, box_pwd.Text);
+            box_result.Text = GLF.UserToString(user);
+        }
     }
 }
